@@ -1,6 +1,6 @@
 {
   "name": "beautybookback-end",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Seviços internos",
   "main": "index.js",
   "scripts": {
