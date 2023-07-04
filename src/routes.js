@@ -5,6 +5,7 @@ const RegistrarSalao = require('./controllers/salao/registro'); //importando fun
 const LoginSalao  = require('./controllers/salao/login'); // importando função de login;
 const HorarioFuncionamento = require('./controllers/salao/horario_funcionamento'); //fonções de horário de funcionamento;
 const Servicos = require('./controllers/salao/servicos'); // funçoes relacionadas a cadastro, editar, deletar > serviços;
+const Funcionario = require('./controllers/salao/funcionario'); // funções de cadastro de funcionários 
 
 //rota de registro de salão;
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
@@ -26,4 +27,10 @@ routes.get('/servicos', Servicos.Listar);
 routes.put('/servicos', Servicos.EditarServicos);
 //rota para deletar um serviço ;
 routes.delete('/servicos', Servicos.Delete);
+//rota para resgistra  um Funcionário;
+routes.post('/funcionario', Funcionario.RegistrarFuncionario);
+//rota para listar os funcinários de um salão;
+routes.get('/funcionario', Funcionario.ListarFuncionarios);
+//rota para deleter um funcionário
+routes.delete('/funcionario', Funcionario.DeletarFuncionario);
 module.exports = routes;
