@@ -14,6 +14,7 @@ routes.post('/loginsalao', LoginSalao.LoginSalao);
 //rota para criar os horários de funcionamento;
 routes.post('/horariofuncionamento', HorarioFuncionamento.HorarioFuncionamento);
 //rota para editar o horário de funcinamrento;
+routes.put('/horariofuncionamento', HorarioFuncionamento.EditarHorario);
 //rota de listagem de horários de funcinamento;
 routes.get('/horariofuncionamento', HorarioFuncionamento.Listar);
 module.exports = routes;
