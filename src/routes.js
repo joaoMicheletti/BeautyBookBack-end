@@ -6,6 +6,7 @@ const LoginSalao  = require('./controllers/salao/login'); // importando função
 const HorarioFuncionamento = require('./controllers/salao/horario_funcionamento'); //fonções de horário de funcionamento;
 const Servicos = require('./controllers/salao/servicos'); // funçoes relacionadas a cadastro, editar, deletar > serviços;
 const Funcionario = require('./controllers/salao/funcionario'); // funções de cadastro de funcionários 
+const Ajustes = require('./controllers/ajustes/intervalo_agendamento'); // funções dos ajustesS
 
 //rota de registro de salão;
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
@@ -33,4 +34,6 @@ routes.post('/funcionario', Funcionario.RegistrarFuncionario);
 routes.get('/funcionario', Funcionario.ListarFuncionarios);
 //rota para deleter um funcionário
 routes.delete('/funcionario', Funcionario.DeletarFuncionario);
+//rota para definir o intervalo entre cada agendamento ;
+routes.put('/intervalo', Ajustes.IntervaloAgendamento);
 module.exports = routes;

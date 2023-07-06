@@ -5,7 +5,7 @@ module.exports = {
     // função responsável por regitrar os salões;
     async Registrar(request, response){
         const {
-            cpf,
+            cpf_salao,
             nome_salao,
             endereco,
             cep,
@@ -15,7 +15,7 @@ module.exports = {
         } = request.body;
         var codigo_indicacao = crypto.randomBytes(3).toString('HEX');;
         const Data = {
-            cpf,
+            cpf_salao,
             nome_salao,
             endereco,
             cep,
