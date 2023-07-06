@@ -7,6 +7,8 @@ const HorarioFuncionamento = require('./controllers/salao/horario_funcionamento'
 const Servicos = require('./controllers/salao/servicos'); // funçoes relacionadas a cadastro, editar, deletar > serviços;
 const Funcionario = require('./controllers/salao/funcionario'); // funções de cadastro de funcionários 
 const Ajustes = require('./controllers/ajustes/intervalo_agendamento'); // funções dos ajustesS
+const Multer = require('multer'); // instânciando o multer;
+const MulterConfig = require('./controllers/ajustes/multer'); //instânciando configurações do multer
 
 //rota de registro de salão;
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
@@ -36,4 +38,18 @@ routes.get('/funcionario', Funcionario.ListarFuncionarios);
 routes.delete('/funcionario', Funcionario.DeletarFuncionario);
 //rota para definir o intervalo entre cada agendamento ;
 routes.put('/intervalo', Ajustes.IntervaloAgendamento);
+// rota que previne agendqmento encima da hora ;
+routes.put('/cimahora', Ajustes.EmCimaDaHora);
+//routa que defuino um prazo para agendametos futuros;
+routes.put('/agendamentoate', Ajustes.AgendamentoAte);
+//rota de edição de senha do salão
+routes.put('/pass', Ajustes.SenhaSalao);
+//editar cadastro salão;
+routes.put('/editarsalao', Ajustes.EditarSalao);
+//rota para editar senha do funcinário
+routes.put('/passfuncionarios', Ajustes.SenhaFuncionario);
+//rota para salvar imagem no diretorio publico/;
+routes.post('/logo', Multer(MulterConfig).single("image"), Ajustes.AdicionarImagem);
+//salvando o nome da imagem no banco de daados junto com o seu salão;
+routes.put('/logosalao', Ajustes.LogoSalao);
 module.exports = routes;
