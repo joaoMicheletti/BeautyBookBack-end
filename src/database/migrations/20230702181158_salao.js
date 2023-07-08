@@ -7,7 +7,7 @@ exports.up = function(knex) {
 
         table.increments();
         table.string('logo_salao'); 
-        table.string('nome_salao'); // ok
+        table.string('nome_salao').notNullable(); // ok
         table.int('cpf_salao').notNullable(); // ok
         table.string('endereco').notNullable(); // ok
         table.int('cep').notNullable(); //ok
@@ -15,13 +15,14 @@ exports.up = function(knex) {
         table.string('senha').notNullable(); //ok
         table.string('plano');
         table.int('quantidade_funcionarios');
+        table.date('data_inicio_plano');
         table.date('data_vencimento_plano');
         table.string('data_cadastro').notNullable(); //ok
-        table.int('dias_free').default = 7;
+        table.int('dias_free').notNullable();
         table.int('codigo_indicacao').notNullable(); //ok
-        table.int('intervalo_entre_agendamentos');
-        table.int('agendamento_apos_hora_atual');
-        table.int('permitir_agendamento_ate');
+        table.int('intervalo_entre_agendamentos'); //ok
+        table.int('agendamento_apos_hora_atual'); //ok
+        table.int('permitir_agendamento_ate'); //ok
 
     });
   

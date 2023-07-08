@@ -6,7 +6,7 @@ const LoginSalao  = require('./controllers/salao/login'); // importando função
 const HorarioFuncionamento = require('./controllers/salao/horario_funcionamento'); //fonções de horário de funcionamento;
 const Servicos = require('./controllers/salao/servicos'); // funçoes relacionadas a cadastro, editar, deletar > serviços;
 const Funcionario = require('./controllers/salao/funcionario'); // funções de cadastro de funcionários 
-const Ajustes = require('./controllers/ajustes/intervalo_agendamento'); // funções dos ajustesS
+const Ajustes = require('./controllers/ajustes/ajustes'); // funções dos ajustesS
 const Multer = require('multer'); // instânciando o multer;
 const MulterConfig = require('./controllers/ajustes/multer'); //instânciando configurações do multer
 

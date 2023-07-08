@@ -13,7 +13,8 @@ module.exports = {
             senha,
             data_cadastro
         } = request.body;
-        var codigo_indicacao = crypto.randomBytes(3).toString('HEX');;
+        var codigo_indicacao = crypto.randomBytes(3).toString('HEX');
+        var dias_free = 7;
         const Data = {
             cpf_salao,
             nome_salao,
@@ -21,6 +22,7 @@ module.exports = {
             cep,
             email,
             senha,
+            dias_free,
             data_cadastro,
             codigo_indicacao
         };

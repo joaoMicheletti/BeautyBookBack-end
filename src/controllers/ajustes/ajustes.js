@@ -3,7 +3,7 @@ module.exports = {
     //função para salvar a img no diretorio publico;
     async AdicionarImagem(request, response){
         const logo_salao = request.file;
-        return response.json(logo_salao);
+        return response.json(logo_salao); // nao esquecer de auterar para retornar para o front o filename do arquivo
     },
     //salvando o nome da img no banco de dados junto ao seu salão 
     async LogoSalao(request, response){
