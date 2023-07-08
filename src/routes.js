@@ -9,6 +9,7 @@ const Funcionario = require('./controllers/salao/funcionario'); // funções de 
 const Ajustes = require('./controllers/ajustes/ajustes'); // funções dos ajustesS
 const Multer = require('multer'); // instânciando o multer;
 const MulterConfig = require('./controllers/ajustes/multer'); //instânciando configurações do multer
+const Planos = require('./controllers/salao/plano'); // assinatura de plano;
 
 //rota de registro de salão;
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
@@ -52,4 +53,6 @@ routes.put('/passfuncionarios', Ajustes.SenhaFuncionario);
 routes.post('/logo', Multer(MulterConfig).single("image"), Ajustes.AdicionarImagem);
 //salvando o nome da imagem no banco de daados junto com o seu salão;
 routes.put('/logosalao', Ajustes.LogoSalao);
+//rota para assinar um plano;
+routes.put('/plano', Planos.AssinaturaPlano);
 module.exports = routes;
