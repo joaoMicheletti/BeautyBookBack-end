@@ -18,6 +18,7 @@ exports.up = function(knex) {
         table.date('data_inicio_plano');
         table.date('data_vencimento_plano');
         table.int('quantidade_funcionarios');
+        table.int('limite_funcionarios');
         table.string('assinatura_status');
         table.string('data_cadastro').notNullable(); //ok
         table.int('dias_free').notNullable(); //ok

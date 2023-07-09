@@ -8,7 +8,7 @@ module.exports = {
             assinatur,
             data_inicio_plnao,
             data_vencimento_plano,
-            quantidade_funcionarios,
+            limite_funcionarios,
             assinatura_status: ativa
         } = request.body;
         console.log(Data.assinatura_status);
@@ -17,7 +17,7 @@ module.exports = {
         .update('assinatura', Data.assinatura)
         .update('data_inicio_plano', Data.data_inicio_plano)
         .update('data_vencimento_plano', Data.data_vencimento_plano)
-        .update('quantidade_funcionarios', Data.quantidade_funcionarios)
+        .update('limite_funcionarios', Data.limite_funcionarios)
         .update('assinatura_status', Data.assinatura_status);
         return response.json(list);
     },
