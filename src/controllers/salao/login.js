@@ -2,6 +2,9 @@ const connect = require('../../database/connection');
 module.exports = {
 
     async LoginSalao(request, response){
+        // falta fazer a verificação dos dias free 
+        //cada salão novo no sistema terá uma semana, (7) dias de acesso livre
+        //passado esses 7 dias ele so terá acesso a pagina de planos até contratar um .
         
         const {cpf_salao, senha} = request.body; 
         // buscando os dados recebidos pelo corpo da reques ;
