@@ -39,7 +39,6 @@ const connect = require('../../database/connection');
 
             } else {
                 return response.json('Desculpe, você já excedeu o limite de funcionários cadastrados...');                
-
             } 
         };
         //const Data = {cpf_salao, nome_completo, cpf_funcionario, senha};
