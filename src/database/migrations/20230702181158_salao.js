@@ -20,7 +20,7 @@ exports.up = function(knex) {
         table.int('quantidade_funcionarios');
         table.int('limite_funcionarios');
         table.string('assinatura_status');
-        table.string('data_cadastro').notNullable(); //ok
+        table.date('data_cadastro').notNullable(); //ok
         table.int('dias_free').notNullable(); //ok
         table.int('codigo_indicacao').notNullable(); //ok
         table.int('intervalo_entre_agendamentos'); //ok

@@ -45,15 +45,43 @@ module.exports = {
             return response.json('erro no login');
         } else { // si chegou aqui passou en todas as verificações como salão;
             //retorne um objeto com a propriedade cpf_salao;
-            // retorne o status do plano, aregra de negócio só  deixara o salão ter acesso a pagina de planos.
+            // retorne o status do plano, caso sejá off o salão só terá acesso a pegina d planos .
             const status = await connect('salao').where('cpf_salao', cpf_salao).select('assinatura_status');
-            console.log(status)
-            var assinatura_status = status[0].assinatura_status;
-            const Data = {
-                cpf_salao,
-                assinatura_status
-            };
-            return response.json(Data);
-        }
+            console.log(status[0].assinatura_status);
+            /*salão com a assinatura_status = null ou sejá novos na plataforma,
+            será liberado 7 dias corridos livres com algumas restrições.
+            passado esse período o salão não terá mais acesso as funcionalidades da nossa plataforma
+            terá scesso somente a pagina de planos para ativar o seu cadastro.
+            */
+            if(status[0].assinatura_status === null){
+                //data de cadastro do salão
+                const dataCadastro = await connect('salao').where('cpf_salao', cpf_salao).select('data_cadastro');
+                //data atual
+                var dataAtual = new Date();  
+                var dataString = dataCadastro[0].data_cadastro;
+                // Quebrar a string da data em dia, mês e ano
+                var partes = dataString.split('/');
+                var dia = parseInt(partes[0], 10);
+                var mes = parseInt(partes[1], 10) - 1; // Os meses em JavaScript são baseados em zero
+                var ano = parseInt(partes[2], 10);
+                // Criar um objeto de data com os valores obtidos
+                var data = new Date(ano, mes, dia);
+                // Adicionar 7 dias ao objeto de data
+                data.setDate(data.getDate() + 7);
+                //salvando na variavel o status dos dias free, true para acesso livre false para acesso livre excedido;
+                var dias_free = dataAtual < data;
+                
+                var assinatura_status = status[0].assinatura_status;
+                const Data = {
+                    cpf_salao,
+                    dias_free,
+                    assinatura_status
+                };
+                return response.json(Data);             
+
+            } else {
+                
+            };            
+        };
     },
 }
