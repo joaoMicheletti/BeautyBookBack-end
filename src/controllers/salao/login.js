@@ -47,7 +47,7 @@ module.exports = {
             //retorne um objeto com a propriedade cpf_salao;
             // retorne o status do plano, caso sejá off o salão só terá acesso a pegina d planos .
             const status = await connect('salao').where('cpf_salao', cpf_salao).select('assinatura_status');
-            console.log(status[0].assinatura_status);
+            
             /*salão com a assinatura_status = null ou sejá novos na plataforma,
             será liberado 7 dias corridos livres com algumas restrições.
             passado esse período o salão não terá mais acesso as funcionalidades da nossa plataforma
@@ -70,7 +70,6 @@ module.exports = {
                 data.setDate(data.getDate() + 7);
                 //salvando na variavel o status dos dias free, true para acesso livre false para acesso livre excedido;
                 var dias_free = dataAtual < data;
-                
                 var assinatura_status = status[0].assinatura_status;
                 const Data = {
                     cpf_salao,
@@ -80,6 +79,12 @@ module.exports = {
                 return response.json(Data);             
 
             } else {
+                var assinatura_status = status[0].assinatura_status;
+                const Data = {
+                    cpf_salao,
+                    assinatura_status
+                };
+                return response.json(Data);
                 
             };            
         };
