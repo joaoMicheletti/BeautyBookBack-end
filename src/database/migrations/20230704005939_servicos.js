@@ -7,7 +7,7 @@ exports.up = function(knex) {
         table.increments();
         table.int('cpf_salao').notNullable();
         table.string('servico').notNullable();
-        table.int('tempo').notNullable();
+        table.int('tempo');
         table.float('preco').notNullable();
     });
   
