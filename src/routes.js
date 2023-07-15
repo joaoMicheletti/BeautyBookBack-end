@@ -10,6 +10,7 @@ const Ajustes = require('./controllers/ajustes/ajustes'); // funções dos ajust
 const Multer = require('multer'); // instânciando o multer;
 const MulterConfig = require('./controllers/ajustes/multer'); //instânciando configurações do multer
 const Planos = require('./controllers/salao/plano'); // assinatura de plano;
+const AgendamentoClientes = require('./controllers/cliente/agendamento'); // funões de ageendamento para crientes.
 
 //rota de registro de salão;
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
@@ -55,4 +56,8 @@ routes.post('/logo', Multer(MulterConfig).single("image"), Ajustes.AdicionarImag
 routes.put('/logosalao', Ajustes.LogoSalao);
 //rota para assinar um plano;
 routes.put('/plano', Planos.AssinaturaPlano);
+//rota para listar horarios livres na agenda
+routes.get('/horarioslivres', AgendamentoClientes.ConsultarEspacoLivreNaAgenda);
+//rota para registrar o agendamento
+routes.post('/registraragendamento', AgendamentoClientes.CriarAgendamento);
 module.exports = routes;

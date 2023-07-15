@@ -11,7 +11,6 @@ module.exports = {
             limite_funcionarios,
             assinatura_status: ativa
         } = request.body;
-        console.log(Data.assinatura_status);
         const list = await connect('salao').where('cpf_salao', Data.cpf_salao)
         .update('plano', Data.plano)
         .update('assinatura', Data.assinatura)
