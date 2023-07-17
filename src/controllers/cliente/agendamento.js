@@ -2,90 +2,52 @@ const connect = require('../../database/connection'); //conexão com o banco de 
 module.exports = {
     //função para ver se  a agenda está liberada no horaio e na data;
     async ConsultarEspacoLivreNaAgenda(request, response){
-    const {
-        cpf_salao, 
-        cpf_funcionario,
-        dia, mes, ano, hora,
-        servico,
-        preco,
-        nome_cliente,  contato_cliente, obs,
-        persent50,
-        status_servico
-    } = request.body;
-        console.log("Funcionario :"+cpf_funcionario, + "salâo :", + cpf_salao);
-        //si cpf_salao for vazio, busque na agenda do funcionários, vice e verça.
-        // caso os dois forem vazios retornar erro.
+        const {
+            cpf_salao, 
+            cpf_funcionario,
+            dia_semana,
+            dia, mes, ano, hora,
+            servico,
+            preco,
+            nome_cliente,  contato_cliente, obs,
+            persent50,
+            status_servico
+        } = request.body;
+        console.log("salão : "+ cpf_salao);
+        console.log("Funcionário : "+ cpf_funcionario);
 
-        if(cpf_salao === undefined){ //vamos buscar agenda do funcionario;
-            console.log('não tem salao');
-            var list_funcionario = await connect('funcionarios').where('cpf_funcionario', cpf_funcionario).select('*');
-            console.log(list_funcionario);
+        //cpf_funcionario não veio no corpo da request.
+        if(cpf_funcionario === undefined){
+            //buscar no banco de dados o horario de funcionamento do dia.
+            const funcionamento = await connect('horarios').where('cpf_salao', cpf_salao).where('dia', dia_semana).select('*');
 
-        } else if(cpf_funcionario === undefined){ // vamos buscar agenda do salão 
-
-            /**ver o dia e horário de funcionameto para decidirmos de que horás a que horás podemos marcar na agenda.ok
-             * buscar na tabela salão o a coluna que define que o cliente só poderá 
-             * registrar seu agendamento apos um determinado tempo da hora atual.
-             * com isso podemos determinar quantos agendamentos poderâo ser feitos até o fim do expediente.
-             * Com a hora de fim de trabalho menos a hora atual vai nos dar o tempo que nos resta
-             * */
-            var funcionamento = await connect('horarios').where('cpf_salao', cpf_salao).select('*'); // funcionamento do dia inicio fim e o dia 
-            var inicio_expediente = funcionamento[0].inicio_trabalhos; // hora que inicia o expediente.
-            var fim_expediente = funcionamento[0].fim_trabalhos; //hoque que o expediente acaba
-            var list_salao = await connect('agenda').where('cpf_salao', cpf_salao).select('*'); //salão no qual o agendamento pertence.
-            var agendamento_do_dia = await connect('agenda').where('cpf_salao', cpf_salao) //verificar se ja temos um horario agendao .
-            .where('dia', dia)
-            .where('mes', mes)
-            .where('ano', ano).select('dia', 'mes', 'ano', 'hora', 'hora_termino');
-            
-            /**o font fica responssavél de mandar uma data valida, aqui trataremos a horas**
-             * caso a o hora for menor que a do inicio do expediente não sera possivel agendar
-             * caso sejá maior tbm não. /
-             * */
-            if(hora <= inicio_expediente){ // caso o salão não esteja aberto ainda.
-                console.log('nao abriu');
-                return response.json('Salão fora do horário de funcionamento...');
-            } else if( hora > fim_expediente){// cado o salão já esteja fechado.
-                console.log('está fechado');
-                return response.json('Salão fora de horário de fincionamento...');
-            } else if(hora > inicio_expediente && hora < fim_expediente) { // dentro do horário de funcionamento.
-                var agendamento_anterior = await connect('agenda').where('cpf_salao', cpf_salao)
-                .where('dia', dia)
-                .where('mes', mes)
-                .where('ano', ano).select('hora_termino' >= hora);
-                /**
-                 * verificar se finalizou o adendimento antertior.
-                 */
-                if(agendamento_anterior[0].hora_termino >= hora){ 
-                    return response.json(`O agendamento anterior não estará finalizado até seu horario.`);
-                } else {
-                    /**pegar o horaio de agendamento somar mais o tempo estimado do serviço
-                     * verificar se a apossibilidade de encaixe sem conflito com o proximo egendamento.
-                     */
-                    var tempo_termino_servico = await connect('salao').where('cpf_salao', cpf_salao).select('intervalo_entre_agendamentos');
-                    var horas = Math.floor(tempo_termino_servico[0].intervalo_entre_agendamentos / 60); // Obtém a parte inteira das horas
-                    var minutosRestantes = tempo_termino_servico[0].intervalo_entre_agendamentos % 60; // Obtém os minutos restantes
+            if(hora < funcionamento[0].inicio_trabalhos){ //salão não está aberto ainda!.
+                return response.json("Fora do Horário de funcionamento.");
+            } else if(hora > funcionamento[0].fim_trabalhos){ // salão já está fechado nessa hora; 
+                return response.json("Fora do Horário de funcionamento.");
+            } else if(hora >= funcionamento[0].inicio_trabalhos && hora <= funcionamento[0].fim_trabalhos){// dentro do horário de funcionamento;
+                var agendamentos_anteriores = await connect('agenda').where('cpf_salao', cpf_salao)
+                .where('dia', dia).where('mes', mes).where('ano', ano).where('hora', '<=', hora).where('hora_termino', '>' ,hora);
+                if(agendamentos_anteriores.length === 0){ //não possui conflito com agendamento anterior
+                    //evitar conflito com agendamentos já marcados mais a frente.
+                    var termino_agendamento_atual = await connect('salao').where('cpf_salao', cpf_salao).select('intervalo_entre_agendamentos');
+                    //cimplificando a hora.
+                    var horas = Math.floor(termino_agendamento_atual[0].intervalo_entre_agendamentos / 60); // Obtém a parte inteira das horas
+                    var minutosRestantes = termino_agendamento_atual[0].intervalo_entre_agendamentos % 60; // Obtém os minutos restantes
                     var valorFormatado = horas + "." + minutosRestantes;
-                    console.log(parseFloat(valorFormatado) + hora);
-                    var termino_servico_atual = parseFloat(valorFormatado) + hora; //hora convertida para float
-
+                    var hora_termino = parseFloat(valorFormatado, 10) + hora;
+                    console.log(hora_termino)
                     var proximo_agendamento = await connect('agenda').where('cpf_salao', cpf_salao)
-                    .whereBetween('hora_termino', [hora, termino_servico_atual]).select('*')
-                    console.log(proximo_agendamento.length);
-                    if(proximo_agendamento.length === 0){
-                        return response.json('agenda livre');
-                    } else {
-                        return response.json('encaixe não permitido');
+                    .where('hora', '>', hora).where('hora', '<', hora_termino);
+                    if(proximo_agendamento.length === 0){ //nao tem conflito com o proximo agendado
+                        return response.json('agendamento permitido');
                     }
-                    
+                    return response.json('conflito entre agendamentos');                
 
-                    
-                }              
+                }
+                return response.json('Horário já ocupado');
             }
-
-
-
-        }
+        };
     },
     //função para criar o agendamento;
     async CriarAgendamento(request, response){
