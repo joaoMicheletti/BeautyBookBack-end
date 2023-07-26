@@ -153,7 +153,21 @@ module.exports = {
             };
             var conf = await connect('agenda').insert(Data);
             return response.json(conf);
+        };   
+    },
+    //listar os horarios já preenchidos.
+    async HorariosPreenchidos(request, response){
+        const {cpf_salao, cpf_funcionario, dia, mes, ano} = request.body;
+        //não veio o dado cpf_salao;
+        if(cpf_salao === undefined){ //trabalhando com o cpf_funcionario;
+            const Lista = await connect('agenda').where('cpf_funcionario', cpf_funcionario)
+            .where('dia', dia).where('mes', mes).where('ano', ano); 
+            return response.json(Lista);
+            //não veio o dado Cpf_funcionario   
+        } else if(cpf_funcionario === undefined){
+            const Lista = await connect('agenda').where('cpf_salao', cpf_salao)
+            .where('dia', dia).where('mes', mes).where('ano', ano);
+            return response.json(Lista);
         };
-        
-    }
-}
+    },
+};

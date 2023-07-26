@@ -60,4 +60,6 @@ routes.put('/plano', Planos.AssinaturaPlano);
 routes.get('/horarioslivres', AgendamentoClientes.ConsultarEspacoLivreNaAgenda);
 //rota para registrar o agendamento
 routes.post('/registraragendamento', AgendamentoClientes.CriarAgendamento);
+//rota para listar os horarios já preenchidos num salão individual ou num funcionário;
+routes.get('/horariospreenchidos', AgendamentoClientes.HorariosPreenchidos);
 module.exports = routes;
