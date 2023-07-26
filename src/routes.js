@@ -1,6 +1,5 @@
 const express = require('express');
 const routes = express.Router();
-
 const RegistrarSalao = require('./controllers/salao/registro'); //importando funções de registro
 const LoginSalao  = require('./controllers/salao/login'); // importando função de login;
 const HorarioFuncionamento = require('./controllers/salao/horario_funcionamento'); //fonções de horário de funcionamento;
@@ -11,7 +10,6 @@ const Multer = require('multer'); // instânciando o multer;
 const MulterConfig = require('./controllers/ajustes/multer'); //instânciando configurações do multer
 const Planos = require('./controllers/salao/plano'); // assinatura de plano;
 const AgendamentoClientes = require('./controllers/cliente/agendamento'); // funões de ageendamento para crientes.
-
 //rota de registro de salão;
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
 //rota de listagem de salão cadastrado;
@@ -62,4 +60,6 @@ routes.get('/horarioslivres', AgendamentoClientes.ConsultarEspacoLivreNaAgenda);
 routes.post('/registraragendamento', AgendamentoClientes.CriarAgendamento);
 //rota para listar os horarios já preenchidos num salão individual ou num funcionário;
 routes.get('/horariospreenchidos', AgendamentoClientes.HorariosPreenchidos);
+//rota para validar so o agendamento futuro do cliente será permitido;
+routes.post('/agendamentosfuturos', AgendamentoClientes.AgendamentosFuturos);
 module.exports = routes;

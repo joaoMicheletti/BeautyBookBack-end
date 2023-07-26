@@ -1,5 +1,57 @@
 const connect = require('../../database/connection'); //conexão com o banco de dados;
 module.exports = {
+    //agendamentos futuros;
+    async AgendamentosFuturos(request, response){
+        const {cpf_salao, cpf_funcionario, data_atual, dia, mes, ano} = request.body;
+        //não veio o dado cpf_saloa;
+        if(cpf_salao === undefined){
+            const Lista = await connect('funcionarios').where('cpf_funcionario', cpf_funcionario).select('cpf_salao');
+            const SalaoFuncionario = await connect('salao').where('cpf_salao', Lista[0].cpf_salao);
+            //quantidade em dias a ser somada mais a data atual,
+            //para determinar se esta dentro do prazo permitido para agendamentos futuros;
+            var AgeendamentoAte = SalaoFuncionario[0].permitir_agendamento_ate;
+            //data Atual;
+            // Quebrar a string da data em dia, mês e ano
+            var partes = data_atual.split('/');
+            var Dia = parseInt(partes[0], 10);
+            var Mes = parseInt(partes[1], 10) - 1 ; // Os meses em JavaScript são baseados em zero
+            var Ano = parseInt(partes[2], 10);
+            // Criar um objeto de data com os valores obtidos
+            var data = new Date(Ano, Mes, Dia);
+            // Adicionar o prazo "AgendamentoAte" ao objeto de data
+            data.setDate(data.getDate() + AgeendamentoAte);
+            var dataString = ano+'/'+mes+'/'+dia;
+            var DataFormatadaParaServico = new Date(dataString); //data desejáda para o agendamento;
+            if(DataFormatadaParaServico <= data){
+                return response.json('Dentro do limite para Agendamentos futuros');
+            } else {
+                return response.json('você excedeu o limiti de parzo para agendamentos futuros.')
+            };
+            //nçao veio o dado cpf_funcionário;
+        } else if(cpf_funcionario === undefined){
+            const Lista = await connect('salao').where('cpf_salao', cpf_salao).select('permitir_agendamento_ate');
+            //quantidade em dias a ser somada mais a data atual,
+            //para determinar se esta dentro do prazo permitido para agendamentos futuros;
+            var AgeendamentoAte = Lista[0].permitir_agendamento_ate;
+            //data Atual;
+            // Quebrar a string da data em dia, mês e ano
+            var partes = data_atual.split('/');
+            var Dia = parseInt(partes[0], 10);
+            var Mes = parseInt(partes[1], 10) - 1 ; // Os meses em JavaScript são baseados em zero
+            var Ano = parseInt(partes[2], 10);
+            // Criar um objeto de data com os valores obtidos
+            var data = new Date(Ano, Mes, Dia);
+            // Adicionar o prazo "AgendamentoAte" ao objeto de data
+            data.setDate(data.getDate() + AgeendamentoAte);
+            var dataString = ano+'/'+mes+'/'+dia;
+            var DataFormatadaParaServico = new Date(dataString); //data desejáda para o agendamento;
+            if(DataFormatadaParaServico <= data){
+                return response.json('Dentro do limite para Agendamentos futuros');
+            } else {
+                return response.json('você excedeu o limiti de parzo para agendamentos futuros.')
+            };
+        };
+    },
     //função para ver se  a agenda está liberada no horaio e na data;
     async ConsultarEspacoLivreNaAgenda(request, response){
         const {
