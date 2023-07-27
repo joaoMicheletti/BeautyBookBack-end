@@ -36,9 +36,8 @@ module.exports = {
                         return response.json(Data);
                     } else {
                         //para o salão que encontra-se com o plano inativo os funncionários não terao acesso ao sistema;
-                        return response.json('Acesso Negado!')
-                    }
-                    
+                        return response.json('Acesso Negado, problemas com à assinatura do plano.');
+                    };                    
                 };
             };
         } else if(cSenha[0].senha != senha ){
@@ -85,7 +84,6 @@ module.exports = {
                     assinatura_status
                 };
                 return response.json(Data);
-                
             };            
         };
     },

@@ -11,7 +11,8 @@ module.exports = {
             cep,
             email,
             senha,
-            data_cadastro
+            data_cadastro,
+            indicado_por
         } = request.body;
         var codigo_indicacao = crypto.randomBytes(3).toString('HEX');
         var dias_free = 7;
@@ -24,7 +25,8 @@ module.exports = {
             senha,
             dias_free,
             data_cadastro,
-            codigo_indicacao
+            codigo_indicacao,
+            indicado_por
         };
         await connect('salao').insert(Data);
 

@@ -13,16 +13,17 @@ exports.up = function(knex) {
         table.int('cep').notNullable(); //ok
         table.string('email').notNullable(); //ok
         table.string('senha').notNullable(); //ok
-        table.string('plano');
-        table.int('assinatura');
-        table.date('data_inicio_plano');
-        table.date('data_vencimento_plano');
-        table.int('quantidade_funcionarios');
-        table.int('limite_funcionarios');
-        table.string('assinatura_status');
+        table.string('plano'); //ok
+        table.int('assinatura'); //ok
+        table.date('data_inicio_plano'); //ok
+        table.date('data_vencimento_plano'); //ok
+        table.int('quantidade_funcionarios'); //ok
+        table.int('limite_funcionarios'); //ok
+        table.string('assinatura_status'); //ok
         table.date('data_cadastro').notNullable(); //ok
         table.int('dias_free').notNullable(); //ok
         table.int('codigo_indicacao').notNullable(); //ok
+        table.string('indicado_por'); //ok
         table.int('intervalo_entre_agendamentos'); //ok
         table.int('agendamento_apos_hora_atual'); //ok
         table.int('permitir_agendamento_ate'); //ok
