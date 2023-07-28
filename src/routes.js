@@ -33,7 +33,7 @@ routes.delete('/servicos', Servicos.Delete);
 //rota para resgistra  um Funcionário;
 routes.post('/funcionario', Funcionario.RegistrarFuncionario);
 //rota para listar os funcinários de um salão;
-routes.get('/funcionario', Funcionario.ListarFuncionarios);
+routes.post('/funcionarios', Funcionario.ListarFuncionarios);
 //rota para deleter um funcionário
 routes.delete('/funcionario', Funcionario.DeletarFuncionario);
 //rota para definir o intervalo entre cada agendamento ;
