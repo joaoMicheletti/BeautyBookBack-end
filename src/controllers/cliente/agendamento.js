@@ -159,7 +159,6 @@ module.exports = {
             var valorFormatado = horas + "." + minutosRestantes;
             var hora_termino = parseFloat(valorFormatado, 10) + hora;
             console.log(hora_termino);
-        
             const Data =  {
                 cpf_salao,
                 cpf_funcionario,

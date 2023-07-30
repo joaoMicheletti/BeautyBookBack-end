@@ -25,7 +25,7 @@ routes.get('/horariofuncionamento', HorarioFuncionamento.Listar);
 //rote para registrar um serviço e seu valor
 routes.post('/servicos', Servicos.Registrar);
 //rota para listar os serviços cadastrados;
-routes.get('/servicos', Servicos.Listar);
+routes.post('/servico', Servicos.Listar);
 //rota para alterar valor do serviço;
 routes.put('/servicos', Servicos.EditarServicos);
 //rota para deletar um serviço ;
@@ -59,7 +59,7 @@ routes.get('/horarioslivres', AgendamentoClientes.ConsultarEspacoLivreNaAgenda);
 //rota para registrar o agendamento
 routes.post('/registraragendamento', AgendamentoClientes.CriarAgendamento);
 //rota para listar os horarios já preenchidos num salão individual ou num funcionário;
-routes.get('/horariospreenchidos', AgendamentoClientes.HorariosPreenchidos);
+routes.post('/horariospreenchidos', AgendamentoClientes.HorariosPreenchidos);
 //rota para validar so o agendamento futuro do cliente será permitido;
 routes.post('/agendamentosfuturos', AgendamentoClientes.AgendamentosFuturos);
 module.exports = routes;
