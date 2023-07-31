@@ -55,7 +55,7 @@ routes.put('/logosalao', Ajustes.LogoSalao);
 //rota para assinar um plano;
 routes.put('/plano', Planos.AssinaturaPlano);
 //rota para listar horarios livres na agenda
-routes.get('/horarioslivres', AgendamentoClientes.ConsultarEspacoLivreNaAgenda);
+routes.post('/horarioslivres', AgendamentoClientes.ConsultarEspacoLivreNaAgenda);
 //rota para registrar o agendamento
 routes.post('/registraragendamento', AgendamentoClientes.CriarAgendamento);
 //rota para listar os horarios já preenchidos num salão individual ou num funcionário;

@@ -65,6 +65,7 @@ module.exports = {
             persent50,
             status_servico
         } = request.body;
+        console.log(cpf_salao, cpf_funcionario, dia_semana, dia, mes, ano);
         console.log("salão : "+ cpf_salao);
         console.log("Funcionário : "+ cpf_funcionario);
 
