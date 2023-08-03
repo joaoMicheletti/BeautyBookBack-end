@@ -25,7 +25,7 @@ module.exports = {
             if(DataFormatadaParaServico <= data){
                 return response.json('Dentro do limite para Agendamentos futuros');
             } else {
-                return response.json('você excedeu o limiti de parzo para agendamentos futuros.')
+                return response.json('você excedeu o limiti de prazo para agendamentos futuros')
             };
             //nçao veio o dado cpf_funcionário;
         } else if(cpf_funcionario === undefined){
@@ -33,6 +33,7 @@ module.exports = {
             //quantidade em dias a ser somada mais a data atual,
             //para determinar se esta dentro do prazo permitido para agendamentos futuros;
             var AgeendamentoAte = Lista[0].permitir_agendamento_ate;
+            console.log(AgeendamentoAte);
             //data Atual;
             // Quebrar a string da data em dia, mês e ano
             var partes = data_atual.split('/');
@@ -48,7 +49,7 @@ module.exports = {
             if(DataFormatadaParaServico <= data){
                 return response.json('Dentro do limite para Agendamentos futuros');
             } else {
-                return response.json('você excedeu o limiti de parzo para agendamentos futuros.')
+                return response.json('você excedeu o limiti de prazo para agendamentos futuros.')
             };
         };
     },
