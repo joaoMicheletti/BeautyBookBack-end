@@ -190,8 +190,9 @@ module.exports = {
             var hora_termino = parseFloat(valorFormatado, 10) + hora;
         
             const Data =  {
-                cpf_salao,
+                cpf_salao: info_funcionario[0].cpf_salao,
                 cpf_funcionario,
+                nome_completo: info_funcionario[0].nome_completo,
                 dia,
                 mes,
                 ano,
@@ -214,13 +215,38 @@ module.exports = {
         //não veio o dado cpf_salao;
         if(cpf_salao === undefined){ //trabalhando com o cpf_funcionario;
             const Lista = await connect('agenda').where('cpf_funcionario', cpf_funcionario)
-            .where('dia', dia).where('mes', mes).where('ano', ano); 
+            .where('dia', dia).where('mes', mes).where('ano', ano).where('status_servico', 'agendado'); 
             return response.json(Lista);
             //não veio o dado Cpf_funcionario   
         } else if(cpf_funcionario === undefined){
             const Lista = await connect('agenda').where('cpf_salao', cpf_salao)
-            .where('dia', dia).where('mes', mes).where('ano', ano);
+            .where('dia', dia).where('mes', mes).where('ano', ano).where('status_servico', 'agendado');
             return response.json(Lista);
+        };
+    },
+    //função para listar serviços finalizados;
+    async servicosFinalizados(request, response){
+        console.log('serviços finalizados');
+    },
+    //função para atualizar o status do cerviço para cancelar;
+    async UpdateStatusServicoCancelar(request, response){
+        const {id} = request.body;
+        const lista = await connect('agenda').where('id', id).update('status_servico', 'cancelado');
+        if(lista > 0){
+            return response.json('Serviço Cancelado');
+        }else {
+            return response.json('Erro ao Cancelar Servoço');
+        };
+    },
+    //função para atualizar o status do serviço para finalizado;
+    async UpdateStatusServicoFinalizar(request, response){
+        const {id} = request.body;
+        const lista = await connect('agenda').where('id', id).update('status_servico', 'finalizado');
+
+        if(lista > 0){
+            return response.json('Serviço Finalizado');
+        } else {
+            return response.json('Erro ao Finalizar o Serviço');
         };
     },
 };

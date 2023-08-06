@@ -18,15 +18,15 @@ module.exports = {
     },
     // função responsável por editar um seviços;
     async EditarServicos(request, response){
-        const {cpf_salao, servico, preco} = request.body;
-        await connect('servicos').where('cpf_salao', cpf_salao).where('servico', servico).update('preco', preco);
-        return response.json('Editado;')
+        const {id, preco} = request.body;
+        await connect('servicos').where('id', id).update('preco', preco);
+        return response.json('Editado;');
     },
     //função responsável por deletar um serviço;
     async Delete(request, response){
-        const {cpf_salao, servico, preco} = request.body;
-        const Lista = await connect('servicos').where('cpf_salao', cpf_salao).where('servico', servico)
-        .where('preco', preco).delete();
+        const {id} = request.body;
+        console.log(id);
+        const Lista = await connect('servicos').where('id', id).delete();
         return response.json(Lista);
     },
 };

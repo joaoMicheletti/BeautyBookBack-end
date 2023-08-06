@@ -18,7 +18,6 @@ module.exports = {
         };
         await connect('horarios').insert(Data);
 
-       console.log(Data);
        return response.json(Data);
     },
     //editaar Horario de funcionamento;
@@ -32,7 +31,8 @@ module.exports = {
     },
     //listar horários cadastrado
     async Listar(request, response){
-        const Lista = await connect('horarios').select('*');
-        return response.json(Lista);
+        const {cpf_salao} = request.body;
+        const Lista = await connect('horarios').where('cpf_salao', cpf_salao).select('*');
+        return response.json(Lista);    
     },
 }

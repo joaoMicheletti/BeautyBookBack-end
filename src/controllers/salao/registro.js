@@ -28,8 +28,14 @@ module.exports = {
             codigo_indicacao,
             indicado_por
         };
-        await connect('salao').insert(Data);
-
+        var RespCadastro = await connect('salao').insert(Data);
+        if(RespCadastro.length > 0){
+            return response.send('cadastrado Com sucesso!');
+        } else if(RespCadastro.length === 0){
+            return response.json('Erro ao Cadastrar SAlão.');
+        } else{
+            return response.json('Erro interno');
+        };
         
         return response.json(Data);
     },

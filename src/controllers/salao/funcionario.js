@@ -28,7 +28,6 @@ const connect = require('../../database/connection');
         } else if(info[0].plano === '1X'){ // O plano 1X permite que sejá cadastrado 1 funcionário.
             
             if(info[0].quantidade_funcionarios < info[0].limite_funcionarios){
-                console.log(info[0].quantidade_funcionarios);
                const carlinhos = await connect('funcionarios').insert(Data);
                await connect('salao').where('cpf_salao', cpf_salao).update('quantidade_funcionarios', 1);
                return response.json(carlinhos);
@@ -59,8 +58,15 @@ const connect = require('../../database/connection');
     //função para deletar um funcionario;
     async DeletarFuncionario(request, response){
         const {cpf_salao, cpf_funcionario} = request.body;
+        
         const lista = await connect('funcionarios').where('cpf_salao', cpf_salao)
         .where('cpf_funcionario', cpf_funcionario).delete();
+        //atualizando na tabela salaõa a quantidade de funcionarios apos deletar um;
+        if(lista > 0){ // se for mair deletou o fucionário;
+            const quantidade_funcionarios = await connect('salao').where('cpf_salao', cpf_salao).select('quantidade_funcionarios');
+            await connect('salao').where('cpf_salao', cpf_salao).update('quantidade_funcionarios', quantidade_funcionarios[0].quantidade_funcionarios - 1);
+        };
+
         return response.json(lista);
     },
  }

@@ -21,7 +21,7 @@ routes.post('/horariofuncionamento', HorarioFuncionamento.HorarioFuncionamento);
 //rota para editar o horário de funcinamrento;
 routes.put('/horariofuncionamento', HorarioFuncionamento.EditarHorario);
 //rota de listagem de horários de funcinamento;
-routes.get('/horariofuncionamento', HorarioFuncionamento.Listar);
+routes.post('/listarhorariofuncionamento', HorarioFuncionamento.Listar);
 //rote para registrar um serviço e seu valor
 routes.post('/servicos', Servicos.Registrar);
 //rota para listar os serviços cadastrados;
@@ -29,13 +29,13 @@ routes.post('/servico', Servicos.Listar);
 //rota para alterar valor do serviço;
 routes.put('/servicos', Servicos.EditarServicos);
 //rota para deletar um serviço ;
-routes.delete('/servicos', Servicos.Delete);
+routes.post('/deletarservicos', Servicos.Delete);
 //rota para resgistra  um Funcionário;
 routes.post('/funcionario', Funcionario.RegistrarFuncionario);
 //rota para listar os funcinários de um salão;
 routes.post('/funcionarios', Funcionario.ListarFuncionarios);
 //rota para deleter um funcionário
-routes.delete('/funcionario', Funcionario.DeletarFuncionario);
+routes.post('/deletarfuncionario', Funcionario.DeletarFuncionario);
 //rota para definir o intervalo entre cada agendamento ;
 routes.put('/intervalo', Ajustes.IntervaloAgendamento);
 // rota que previne agendqmento encima da hora ;
@@ -62,4 +62,8 @@ routes.post('/registraragendamento', AgendamentoClientes.CriarAgendamento);
 routes.post('/horariospreenchidos', AgendamentoClientes.HorariosPreenchidos);
 //rota para validar so o agendamento futuro do cliente será permitido;
 routes.post('/agendamentosfuturos', AgendamentoClientes.AgendamentosFuturos);
+//rota para cancelar um serviço
+routes.put('/cancelarservico', AgendamentoClientes.UpdateStatusServicoCancelar);
+//rot pa finalizar um serviço
+routes.put('/finalizarservico', AgendamentoClientes.UpdateStatusServicoFinalizar);
 module.exports = routes;

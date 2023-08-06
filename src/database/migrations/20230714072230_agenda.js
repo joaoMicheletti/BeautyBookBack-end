@@ -8,6 +8,7 @@ exports.up = function(knex) {
         table.increments();
         table.int('cpf_salao');
         table.int('cpf_funcionario');
+        table.string('nome_completo');
         table.int('dia').notNullable();
         table.int('mes').notNullable();
         table.int('ano').notNullable();
