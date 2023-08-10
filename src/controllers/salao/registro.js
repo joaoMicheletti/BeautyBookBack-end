@@ -26,7 +26,10 @@ module.exports = {
             dias_free,
             data_cadastro,
             codigo_indicacao,
-            indicado_por
+            indicado_por,
+            intervalo_entre_agendamentos: 10,
+		    agendamento_apos_hora_atual: 10,
+		    permitir_agendamento_ate: 10
         };
         var RespCadastro = await connect('salao').insert(Data);
         if(RespCadastro.length > 0){
@@ -43,5 +46,11 @@ module.exports = {
     async ListarSalao(request, response){
         const Lista = await connect('salao').select('*');
         return response.json(Lista);
+    },
+    //buscar um salao expecifico;
+    async Salao(request, response){
+        const {cpf_salao} = request.body;
+        var lista = await connect('salao').where('cpf_salao', cpf_salao).select('*');
+        return response.json(lista);
     },
 }

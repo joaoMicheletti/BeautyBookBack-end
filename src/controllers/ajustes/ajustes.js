@@ -3,7 +3,7 @@ module.exports = {
     //função para salvar a img no diretorio publico;
     async AdicionarImagem(request, response){
         const logo_salao = request.file;
-        return response.json(logo_salao); // nao esquecer de auterar para retornar para o front o filename do arquivo
+        return response.json(logo_salao.filename); // nao esquecer de auterar para retornar para o front o filename do arquivo
     },
     //salvando o nome da img no banco de dados junto ao seu salão 
     async LogoSalao(request, response){
@@ -46,12 +46,14 @@ module.exports = {
             cpf_salao,
             nome_salao,
             endereco,
+            cep,
             email
         } = request.body;
 
         await connect('salao').where('cpf_salao', cpf_salao)
         .update('nome_salao', nome_salao)
         .update('endereco', endereco)
+        .update('cep', cep)
         .update('email', email);
         return response.json('Atualizado!.');
 

@@ -14,6 +14,8 @@ const AgendamentoClientes = require('./controllers/cliente/agendamento'); // fun
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
 //rota de listagem de salão cadastrado;
 routes.get('/listarsalao', RegistrarSalao.ListarSalao);
+//rota para buscar um salão 
+routes.post('/buscarsalao' , RegistrarSalao.Salao);
 //rota de login do salão 
 routes.post('/loginsalao', LoginSalao.LoginSalao);
 //rota para criar os horários de funcionamento;
@@ -22,6 +24,8 @@ routes.post('/horariofuncionamento', HorarioFuncionamento.HorarioFuncionamento);
 routes.put('/horariofuncionamento', HorarioFuncionamento.EditarHorario);
 //rota de listagem de horários de funcinamento;
 routes.post('/listarhorariofuncionamento', HorarioFuncionamento.Listar);
+//rota para deletar um horário de funcionamento;
+routes.post('/deletarhorario', HorarioFuncionamento.DeletarHorario);
 //rote para registrar um serviço e seu valor
 routes.post('/servicos', Servicos.Registrar);
 //rota para listar os serviços cadastrados;
@@ -37,21 +41,21 @@ routes.post('/funcionarios', Funcionario.ListarFuncionarios);
 //rota para deleter um funcionário
 routes.post('/deletarfuncionario', Funcionario.DeletarFuncionario);
 //rota para definir o intervalo entre cada agendamento ;
-routes.put('/intervalo', Ajustes.IntervaloAgendamento);
+routes.post('/intervalo', Ajustes.IntervaloAgendamento);
 // rota que previne agendqmento encima da hora ;
-routes.put('/cimahora', Ajustes.EmCimaDaHora);
+routes.post('/cimahora', Ajustes.EmCimaDaHora);
 //routa que defuino um prazo para agendametos futuros;
-routes.put('/agendamentoate', Ajustes.AgendamentoAte);
+routes.post('/agendamentoate', Ajustes.AgendamentoAte);
 //rota de edição de senha do salão
-routes.put('/pass', Ajustes.SenhaSalao);
+routes.post('/pass', Ajustes.SenhaSalao);
 //editar cadastro salão;
-routes.put('/editarsalao', Ajustes.EditarSalao);
+routes.post('/editarsalao', Ajustes.EditarSalao);
 //rota para editar senha do funcinário
-routes.put('/passfuncionarios', Ajustes.SenhaFuncionario);
+routes.post('/passfuncionarios', Ajustes.SenhaFuncionario);
 //rota para salvar imagem no diretorio publico/;
 routes.post('/logo', Multer(MulterConfig).single("image"), Ajustes.AdicionarImagem);
 //salvando o nome da imagem no banco de daados junto com o seu salão;
-routes.put('/logosalao', Ajustes.LogoSalao);
+routes.post('/logosalao', Ajustes.LogoSalao);
 //rota para assinar um plano;
 routes.put('/plano', Planos.AssinaturaPlano);
 //rota para listar horarios livres na agenda

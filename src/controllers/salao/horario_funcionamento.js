@@ -29,6 +29,12 @@ module.exports = {
         .update('fim_trabalhos', fim_trabalhos);
         return response.json(ddd);
     },
+    //DEletar horário de funcionamento;
+    async DeletarHorario(request, response){
+        const {id} = request.body;
+        var resp = await connect('horarios').where('id', id).delete();
+        return response.json(resp);
+    },
     //listar horários cadastrado
     async Listar(request, response){
         const {cpf_salao} = request.body;
