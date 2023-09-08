@@ -1,0 +1,323 @@
+ROTAS DA APLICAÇÃO 
+
+ROTA : Cadastrar Salão 
+
+URL = 127.0.0.1:1998/registrarsalao
+Method = post
+Corpo = {
+	"cpf_salao": 3885,
+	"nome_salao": "Rootkali",
+	"endereco": "Ramon fernandes peres 170",
+	"cep": 3886030,
+	"data_cadastro": "5/08/2023",
+	"email": "jv604014@gmail.com", 
+	"senha": "1533",
+	"indicado_por": "joão"
+}
+
+====================================
+
+ROTA : Listar Salões
+
+URL = 127.0.0.1:1998/listarsalao
+Method = get
+Corpo = null
+====================================
+
+ROTA : Listar um Salão 
+URL = 127.0.0.1:1998/buscarsalao
+Method = post 
+Corpo = {
+	"cpf_salao": 38860300835
+}
+====================================
+
+ROTA : Ligon Salão/Funcionários
+
+url = 127.0.0.1:1998/loginsalao
+Method = POST 
+Corpo = {
+	"cpf_salao":  38860300835,
+	"senha": "1533"
+}
+====================================
+
+ROTA : Cadastrar Horários de Funcionamento
+
+URL = 127.0.0.1:1998/horariofuncionamento
+Method = POST 
+Corpo = {
+	"cpf_salao": 41552162800,
+	"dia": "Sábado",
+	"inicio_trabalhos": 8.00,
+	"fim_trabalhos": 22.00
+}
+====================================
+
+ROTA : Listar Horários de Funcionamento
+URL = 127.0.0.1:1998/listarhorariofuncionamento
+Method = POST 
+Corpo = {
+	"cpf_salao": 38860300835
+}
+====================================
+
+ROTA :  Editar Horário de Funcinamento
+
+URL = 127.0.0.1:1998/horariofuncionamento
+Method = PUT
+Corpo = {
+		"cpf_salao": 38860300835,
+		"dia": "Domingo",
+		"inicio_trabalhos": 8.30,
+		"fim_trabalhos": 23.00
+}
+====================================
+
+ROTA : Deletar Horário de Funcionamento
+
+URL = 127.0.0.1:1998/horariofuncionamento
+Method = DELETE
+Corpo = {
+		"cpf_salao": 38860300835,
+		"dia": "Domingo",
+		"inicio_trabalhos": 8.30,
+		"fim_trabalhos": 23.00}
+====================================
+
+ROTA : Cadastrar um Servço
+
+URL = 127.0.0.1:1998/servicos
+Method = POST 
+Corpo = {
+	"cpf_salao": 38860300835,
+	"tempo": 60,
+	"servico": "botox",
+	"preco": 150.0
+}
+====================================
+
+ROTA : Listar Seviços
+
+URL = 127.0.0.1:1998/servico
+Method = POST 
+Corpo = {
+	"cpf_salao": 3885
+}
+====================================
+
+ROTA : Editar Serviços
+
+URL = 127.0.0.1:1998/servicos
+Method = PUT
+Corpo = {
+	"id": 1,
+	"preco": 250
+}
+====================================
+
+ROTA : Deletar Serviço
+
+URL = 127.0.0.1:1998/deletarservicos
+Method = POST 
+Corpo = {
+		"id": 1
+	}
+====================================
+
+ROTA : Registrar Funcionário
+
+URL = 127.0.0.1:1998/funcionario
+Method = POST 
+Corpo = {
+	"cpf_salao":   38860300835,
+	"nome_completo": "joao Victor de Andrade",
+	"cpf_funcionario": 41552162800,
+	"senha": "1533"
+}
+====================================
+
+ROTA : Listar Funcionários
+
+URL =  127.0.0.1:1998/funcionarios
+Method = POST 
+Corpo = {
+	"cpf_salao":38860300835
+}
+====================================
+
+ROTA : Deletar Funcionário
+
+URL = 127.0.0.1:1998/deletarfuncionario  
+Method = POST 
+Corpo = {
+	"cpf_salao": 38860300835,
+	"cpf_funcionario": 41552162800
+}
+====================================
+
+ROTA : Intervalos Entre Agendamentos
+
+URL = 127.0.0.1:1998/intervalo
+Method = POST
+Corpo = {
+	"cpf_salao": 41552162800,
+	"intervalo_entre_agendamentos": 60
+}
+====================================
+
+ROTA : Evitando Agendamento encima da hora
+
+URL =  127.0.0.1:1998/cimahora
+Method = POST
+Corpo = {
+	"cpf_salao": 41552162800,
+	"agendamento_apos_hora_atual": 60
+}
+====================================
+
+ROTA : Agendamento até "futuros"
+
+URL = 127.0.0.1:1998/agendamentoate 
+Method = POST  
+Corpo = {
+	"cpf_salao": 41552162800,
+	"permitir_agendamento_ate": 30
+}
+====================================
+
+ROTA : Editar senha do Salão 
+
+URL = 127.0.0.1:1998/pass  
+Method = POST 
+Corpo = {
+	"cpf_salao": 38860300835,
+	"senha": 606060
+}
+====================================
+
+ROTA : Editar Cadastro Salão 
+
+URL = 127.0.0.1:1998/editarsalao
+Method = POST 
+Corpo = {
+	"cpf_salao": 41552162800,
+	"nome_salao": "606060",
+	"endereco": "jucas",
+	"email": "joao@joao.com"
+}
+====================================
+
+ROTA : Senha Funcionário
+
+URL = 127.0.0.1:1998/passfuncionarios
+Method = POST 
+Corpo = {
+	"cpf_salao": 41552162800,
+	"cpf_funcionario": 38860300835,
+	"senha": "joao@joao"
+}
+====================================
+
+ROTA : Salvando IMG
+
+URL = 127.0.0.1:1998/logo
+Method = POST 
+Corpo = MULTPART === IMAGE "IMAGE.PNG"
+====================================
+
+ROTA : Salvando nome da IMG
+
+URL = 127.0.0.1:1998/logosalao
+Method = POST
+Corpo = {
+	"logo_salao": "micheletti",
+	"cpf_salao": 38860300835
+}
+====================================
+
+ROTA : Assinatura de Plano
+
+URL =  127.0.0.1:1998/plano
+Method = PUT 
+Corpo = {
+	"cpf_salao": 38860300835,
+	"plano": "4X",
+	"assinatura": 3,
+	"data_inicio_plano": "08/07/2023",
+	"data_vencimento_plano": "08/09/2023",
+	"limite_funcionarios": 50,
+	"assinatura_status": "on"
+}
+====================================
+
+ROTA : Disponibilidade De Horários
+
+URL = 127.0.0.1:1998/horarioslivres
+Method = POST
+Corpo = {
+	"cpf_salao": 38860300835,
+	"dia_semana": "Domingo",
+	"dia": 30,
+        "mes": 7,
+        "ano": 2023,
+        "servico": "botox",
+        "preco": 150,
+	"hora": 8.0,
+        "nome_cliente":"Aline",
+        "contato_cliente": 11932223533,
+        "obs": "Meu cabelo cai muito",
+        "status_servico": "agendado"
+}
+====================================
+
+ROTA :Horários Preenchidos 
+
+URL = 127.0.0.1:1998/horariospreenchidos
+Method = POST 
+Corpo = {
+	"cpf_funcionario": 41552162800,
+	"dia": 5,
+        "mes": 8,
+        "ano": 2023
+}
+====================================
+
+ROTA : Agndamentos Futuraos
+
+URL = 127.0.0.1:1998/agendamentosfuturos
+Method = POST 
+Corpo = {
+	"cpf_salao": 38860300835,
+	"data_atual": "14/08/2023",
+	"dia": 15,
+        "mes": 8,
+        "ano": 2023,
+        "servico": "joso",
+        "preco": 150,
+	"hora": 9.59,
+        "nome_cliente":"Aline",
+        "contato_cliente": 11932223533,
+        "obs": "Meu cabelo cai muito",
+        "status_servico": "agendado"
+}
+====================================
+
+ROTA :  Registrando o agendamento
+
+URL = 127.0.0.1:1998/registraragendamento
+Method = POST 
+Corpo = {            
+            "cpf_funcionario": 	11932223533,
+            "dia": 13,
+            "mes": 8,
+            "ano": 2023,
+            "servico": "botox",
+            "preco": 150,
+	    "hora": 12,
+            "nome_cliente":"Aline",
+            "contato_cliente": 11932223533,
+            "obs": "Meu cabelo cai muito",
+            "status_servico": "agendado"
+}
+====================================
