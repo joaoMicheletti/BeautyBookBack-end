@@ -72,7 +72,7 @@ module.exports = {
                 const Data = {
                     cpf_salao,
                 };
-                console.log(cSenha);
+                
                 return response.json(Data);             
 
             } else {

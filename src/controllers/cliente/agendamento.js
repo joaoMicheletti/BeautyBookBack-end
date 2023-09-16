@@ -33,7 +33,7 @@ module.exports = {
             //quantidade em dias a ser somada mais a data atual,
             //para determinar se esta dentro do prazo permitido para agendamentos futuros;
             var AgeendamentoAte = Lista[0].permitir_agendamento_ate;
-            console.log(AgeendamentoAte);
+            
             //data Atual;
             // Quebrar a string da data em dia, mês e ano
             var partes = data_atual.split('/');
@@ -66,10 +66,7 @@ module.exports = {
             persent50,
             status_servico
         } = request.body;
-        console.log(cpf_salao, cpf_funcionario, dia_semana, dia, mes, ano);
-        console.log("salão : "+ cpf_salao);
-        console.log("Funcionário : "+ cpf_funcionario);
-
+        
         //cpf_funcionario não veio no corpo da request.
         if(cpf_funcionario === undefined){
             //buscar no banco de dados o horario de funcionamento do dia.
@@ -90,7 +87,6 @@ module.exports = {
                     var minutosRestantes = termino_agendamento_atual[0].intervalo_entre_agendamentos % 60; // Obtém os minutos restantes
                     var valorFormatado = horas + "." + minutosRestantes;
                     var hora_termino = parseFloat(valorFormatado, 10) + hora;
-                    console.log(hora_termino)
                     var proximo_agendamento = await connect('agenda').where('cpf_salao', cpf_salao)
                     .where('hora', '>', hora).where('hora', '<', hora_termino);
                     if(proximo_agendamento.length === 0){ //nao tem conflito com o proximo agendado
@@ -154,13 +150,13 @@ module.exports = {
         if(cpf_funcionario === undefined){
 
             var termino = await connect('salao').where('cpf_salao', cpf_salao).select('intervalo_entre_agendamentos');
-            console.log(termino[0].intervalo_entre_agendamentos);
+            
             //simplificando a hora.
             var horas = Math.floor(termino[0].intervalo_entre_agendamentos / 60); // Obtém a parte inteira das horas
             var minutosRestantes = termino[0].intervalo_entre_agendamentos % 60; // Obtém os minutos restantes
             var valorFormatado = horas + "." + minutosRestantes;
             var hora_termino = parseFloat(valorFormatado, 10) + hora;
-            console.log(hora_termino);
+            
             const Data =  {
                 cpf_salao,
                 cpf_funcionario,
@@ -213,17 +209,19 @@ module.exports = {
     async HorariosPreenchidos(request, response){
         const {cpf_salao, cpf_funcionario, dia, mes, ano} = request.body;
         //não veio o dado cpf_salao;
-        if(cpf_salao === undefined){ //trabalhando com o cpf_funcionario;
-            const Lista = await connect('agenda').where('cpf_funcionario', cpf_funcionario)
-            .where('dia', dia).where('mes', mes).where('ano', ano).where('status_servico', 'agendado'); 
-            return response.json(Lista);
-            //não veio o dado Cpf_funcionario   
-        } else if(cpf_funcionario === undefined){
+        if(cpf_funcionario === undefined){
             const Lista = await connect('agenda').where('cpf_salao', cpf_salao)
             .where('dia', dia).where('mes', mes).where('ano', ano).where('status_servico', 'agendado');
             return response.json(Lista);
+        } else if(cpf_salao === undefined){ //trabalhando com o cpf_funcionario;
+            const Lista = await connect('agenda').where('cpf_funcionario', cpf_funcionario)
+            .where('dia', dia).where('mes', mes).where('ano', ano).where('status_servico', 'agendado')
+            .select('*');
+            return response.json(Lista);
+            //não veio o dado Cpf_funcionario   
         };
     },
+    
     //função para listar serviços finalizados;
     async servicosFinalizados(request, response){
         console.log('serviços finalizados');
