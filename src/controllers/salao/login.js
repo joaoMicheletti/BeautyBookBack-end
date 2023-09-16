@@ -6,6 +6,7 @@ module.exports = {
         //passado esses 7 dias ele so terá acesso a pagina de planos até contratar um .
         
         const {cpf_salao, senha} = request.body;
+        console.log(cpf_salao, senha);
         // buscando os dados recebidos pelo corpo da request ;
         const cCpf = await connect('salao').where('cpf_salao', cpf_salao).select('cpf_salao');
         const cSenha = await connect('salao').where('cpf_salao', cpf_salao).select('senha');
@@ -64,16 +65,25 @@ module.exports = {
                 var ano = parseInt(partes[2], 10);
                 // Criar um objeto de data com os valores obtidos
                 var data = new Date(ano, mes, dia);
+                console.log(data, "cadastro data");
                 // Adicionar 7 dias ao objeto de data
                 data.setDate(data.getDate() + 7);
+                console.log(data, "cadastro data + 7");
                 //salvando na variavel o status dos dias free, true para acesso livre false para acesso livre excedido;
                 var dias_free = dataAtual < data;
-                var assinatura_status = status[0].assinatura_status;
-                const Data = {
+                console.log(dias_free);
+                // adicionar retorno de dias free exedido
+                if(dias_free === true){
+                	// dias free disponivél ainda.
+                	const Data = {
                     cpf_salao,
+                	};
+                   	return response.json(Data);
+                } else{
+                	// dias free exedidos.
+                	return response.json("Dias Free exedidos");
                 };
-                
-                return response.json(Data);             
+                             
 
             } else {
                 var assinatura_status = status[0].assinatura_status;
