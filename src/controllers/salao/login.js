@@ -6,7 +6,6 @@ module.exports = {
         //passado esses 7 dias ele so terá acesso a pagina de planos até contratar um .
         
         const {cpf_salao, senha} = request.body;
-        console.log(cpf_salao, senha);
         // buscando os dados recebidos pelo corpo da request ;
         const cCpf = await connect('salao').where('cpf_salao', cpf_salao).select('cpf_salao');
         const cSenha = await connect('salao').where('cpf_salao', cpf_salao).select('senha');
@@ -27,7 +26,6 @@ module.exports = {
                     const salao =  await connect('funcionarios').where('cpf_funcionario', cpf_salao).select('cpf_salao');
                     var cpfsalao = salao[0].cpf_salao;
                     const status = await connect('salao').where('cpf_salao', cpfsalao).select('assinatura_status');
-
                     if(status[0].assinatura_status === 'on'){
                         const Data = {
                             cpf_funcionario: funcionario[0].cpf_funcionario,
@@ -65,13 +63,9 @@ module.exports = {
                 var ano = parseInt(partes[2], 10);
                 // Criar um objeto de data com os valores obtidos
                 var data = new Date(ano, mes, dia);
-                console.log(data, "cadastro data");
                 // Adicionar 7 dias ao objeto de data
-                data.setDate(data.getDate() + 7);
-                console.log(data, "cadastro data + 7");
                 //salvando na variavel o status dos dias free, true para acesso livre false para acesso livre excedido;
                 var dias_free = dataAtual < data;
-                console.log(dias_free);
                 // adicionar retorno de dias free exedido
                 if(dias_free === true){
                 	// dias free disponivél ainda.
@@ -82,9 +76,7 @@ module.exports = {
                 } else{
                 	// dias free exedidos.
                 	return response.json("Dias Free exedidos");
-                };
-                             
-
+                };  
             } else {
                 var assinatura_status = status[0].assinatura_status;
                 const Data = {
