@@ -64,6 +64,7 @@ module.exports = {
                 // Criar um objeto de data com os valores obtidos
                 var data = new Date(ano, mes, dia);
                 // Adicionar 7 dias ao objeto de data
+                data.setDate(data.getDate() + 7);
                 //salvando na variavel o status dos dias free, true para acesso livre false para acesso livre excedido;
                 var dias_free = dataAtual < data;
                 // adicionar retorno de dias free exedido
