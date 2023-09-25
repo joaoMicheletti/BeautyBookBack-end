@@ -1,24 +1,33 @@
 // SDK do Mercado Pago
 const mercadopago = require ('mercadopago');
-// Adicione as credenciais
-mercadopago.configure({
-  access_token: 'PROD_ACCESS_TOKEN' // chave privada;
-});
+module.exports = {
+  async Preferenceid(request, response){
+    const {plano, preco} = request.body
+    console.log(plano, preco);
+    // Configure as credenciais
+    mercadopago.configure({
+      access_token: '' //chave de acesso de teste
+    });
+    // Crie um objeto de preferência
+    let preference = {
+      items: [
+        {
+          title: plano,
+          unit_price: preco,
+          quantity: 1,
+        }
+      ]
+    };
+    mercadopago.preferences.create(preference)
+    .then(function(Response){
+    // Este valor substituirá a string "<%= global.id %>" no seu HTML
+      global.id = Response.body.id;
+      console.log(global.id);
+      return response.json(global.id);
+    }).catch(function(error){
+      console.log(error);
+    });
+  },
+}
 
-// Cria um objeto de preferência
-let preference = {
-    items: [
-      {
-        title: 'Meu produto',
-        unit_price: 100,
-        quantity: 1,
-      }
-    ]
-  };
-  
-  mercadopago.preferences.create(preference)
-  .then(function(response){
-    global.id = response.body.id;
-  }).catch(function(error){
-    console.log(error);
-  });
+

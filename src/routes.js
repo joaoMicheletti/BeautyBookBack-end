@@ -9,6 +9,7 @@ const Ajustes = require('./controllers/ajustes/ajustes'); // funções dos ajust
 const Multer = require('multer'); // instânciando o multer;
 const MulterConfig = require('./controllers/ajustes/multer'); //instânciando configurações do multer
 const Planos = require('./controllers/salao/plano'); // assinatura de plano;
+const Pagamento = require('./controllers/salao/pagementos/sdk_mp'); //função para gerar o id de preferece;
 const AgendamentoClientes = require('./controllers/cliente/agendamento'); // funões de ageendamento para crientes.
 //rota de registro de salão;
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
@@ -70,4 +71,6 @@ routes.post('/agendamentosfuturos', AgendamentoClientes.AgendamentosFuturos);
 routes.put('/cancelarservico', AgendamentoClientes.UpdateStatusServicoCancelar);
 //rot pa finalizar um serviço
 routes.put('/finalizarservico', AgendamentoClientes.UpdateStatusServicoFinalizar);
+//rota do preference id;
+routes.post('/preferenceid', Pagamento.Preferenceid);
 module.exports = routes;
