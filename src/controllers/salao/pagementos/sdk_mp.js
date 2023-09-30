@@ -51,8 +51,14 @@ module.exports = {
         console.log(Dados.status); //status do pagamento pending, failure, success;
         console.log(Dados.description); // nome do produto ou seja nome do plano contratado;
         return response.json(Dados.status);
-      }else{
-        console.log('Tratar aqui estatus not pending');
+      }else if(Dados.status === 'approved'){
+        var status = Dados.status;
+        var description = Dados.description; 
+        const Data = {
+          status,
+          description          
+        };
+        return response.json(Data);
       };
         
       }).catch((error) => {

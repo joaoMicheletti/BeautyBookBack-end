@@ -18,6 +18,6 @@ module.exports = {
         .update('data_vencimento_plano', Data.data_vencimento_plano)
         .update('limite_funcionarios', Data.limite_funcionarios)
         .update('assinatura_status', Data.assinatura_status);
-        return response.json(list);
+        return response.json('success');
     },
 }
