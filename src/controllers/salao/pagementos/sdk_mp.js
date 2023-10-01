@@ -11,8 +11,8 @@ module.exports = {
     // Crie um objeto de preferência
     let preference = {
       back_urls: {
-        "success": "http://localhost:3000/aprovado",
-        "failure": "http://localhost:3000/recusado",
+        "success": "http://localhost:3000/pendente/",
+        "failure": "http://localhost:3000/pendente/",
         "pending": "http://localhost:3000/pendente/"
       },
       "auto_return": "all",
@@ -58,9 +58,11 @@ module.exports = {
           status,
           description          
         };
+        console.log(Data);
         return response.json(Data);
-      };
-        
+      }else{
+        response.json('recusado');
+      };        
       }).catch((error) => {
         console.error('Erro na solicitação:', error);
       });
