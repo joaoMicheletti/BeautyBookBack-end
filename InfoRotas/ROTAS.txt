@@ -137,7 +137,7 @@ Corpo = {
 }
 ====================================
 
-ROTA : Listar Funcionários
+ROTA : Listar Funcionário
 
 URL =  127.0.0.1:1998/funcionarios
 Method = POST 

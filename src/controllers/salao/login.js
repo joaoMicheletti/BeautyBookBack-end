@@ -70,13 +70,13 @@ module.exports = {
                 // adicionar retorno de dias free exedido
                 if(dias_free === true){
                 	// dias free disponivél ainda.
-                	const Data = {
+                    const Data = {
                     cpf_salao,
-                	};
-                   	return response.json(Data);
+                    };
+                    return response.json(Data);
                 } else{
                 	// dias free exedidos.
-                	return response.json("Dias Free exedidos");
+                    return response.json("Dias Free exedidos");
                 };  
             } else {
                 var assinatura_status = status[0].assinatura_status;

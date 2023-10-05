@@ -1,5 +1,5 @@
 const connect = require('../../database/connection');
- module.exports = {
+module.exports = {
     //função para cadastra funcionarios//
     /* antes de cadastrar um funcionario é verificado se o plano do salão permite cadastrar fuincionario
     caso permita garantir que não ultrapasse o limite permitido pelo plano contratado */
@@ -62,6 +62,9 @@ const connect = require('../../database/connection');
             const quantidade_funcionarios = await connect('salao').where('cpf_salao', cpf_salao).select('quantidade_funcionarios');
             await connect('salao').where('cpf_salao', cpf_salao).update('quantidade_funcionarios', quantidade_funcionarios[0].quantidade_funcionarios - 1);
         };
+        //apagar os vestigios do funcionário da tabela agenda;
+        var deletarDadosFuncionarioTableAgenda = await connect('agenda')
+        .where('cpf_funcionario', cpf_funcionario).delete('*');
         return response.json(lista);
     },
 }
