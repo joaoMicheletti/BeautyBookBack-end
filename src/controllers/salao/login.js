@@ -1,6 +1,5 @@
 const connect = require('../../database/connection');
 module.exports = {
-
     async LoginSalao(request, response){
         //cada salão novo no sistema terá uma semana, (7) dias de acesso livre
         //passado esses 7 dias ele so terá acesso a pagina de planos até contratar um .
@@ -50,7 +49,7 @@ module.exports = {
             passado esse período o salão não terá mais acesso as funcionalidades da nossa plataforma
             terá scesso somente a pagina de planos para ativar o seu cadastro.
             */
-            if(status[0].assinatura_status === null){
+            if(status[0].assinatura_status === null){ //verificar os diad free;
                 //data de cadastro do salão
                 const dataCadastro = await connect('salao').where('cpf_salao', cpf_salao).select('data_cadastro');
                 //data atual
@@ -87,5 +86,31 @@ module.exports = {
                 return response.json(Data);
             };            
         };
+    },
+    //função responsavél por verificar se o salão esta com assinatura ativa = 'on';
+    async statusAssinatura(request, respones){
+        const {cpf_salao} = request.body; // req do front
+        //como essa função vai ser chamada constantemente ela tratara de verificar a data de termino de assinatur e etualizar o status de assinatura;
+        //data de vencimento do plano do salão.
+        let dataVencimento = await connect('salao').where('cpf_salao', cpf_salao).select('data_vencimento_plano');
+        // Quebrar a string da data vencimento em dia, mês e ano
+        var partes = dataVencimento[0].data_vencimento_plano.split('/');
+        var Dia = parseInt(partes[0], 10);
+        var Mes = parseInt(partes[1], 10) - 1 ; // Os meses em JavaScript são baseados em zero
+        var Ano = parseInt(partes[2], 10);
+        const dataVencimentobject = new Date(Ano, Mes, Dia);
+        // data Atual;
+        const DataAtual = new Date();
+        var dia = DataAtual.getDate();
+        var mes = DataAtual.getMonth();
+        var ano = DataAtual.getFullYear();
+        const dataAtualObject = new Date(ano, mes, dia);
+        //foi criado dois objetos de data para facilitar na conparação das datas 
+        if(dataAtualObject > dataVencimentobject){
+            await connect('salao').where('cpf_salao', cpf_salao).update('assinatura_status', null);
+        };
+        //busca na base dedados.
+        const ass = await connect('salao').where('cpf_salao', cpf_salao).select('assinatura_status');
+        return respones.json(ass);
     },
 }

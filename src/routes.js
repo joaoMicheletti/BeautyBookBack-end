@@ -19,6 +19,8 @@ routes.get('/listarsalao', RegistrarSalao.ListarSalao);
 routes.post('/buscarsalao' , RegistrarSalao.Salao);
 //rota de login do salão 
 routes.post('/loginsalao', LoginSalao.LoginSalao);
+//verificar assinatura ;
+routes.post('/assinatura', LoginSalao.statusAssinatura);
 //rota para criar os horários de funcionamento;
 routes.post('/horariofuncionamento', HorarioFuncionamento.HorarioFuncionamento);
 //rota para editar o horário de funcinamrento;
