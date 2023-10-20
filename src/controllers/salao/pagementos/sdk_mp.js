@@ -2,16 +2,14 @@
 const mercadopago = require ('mercadopago');
 module.exports = {
   async Preferenceid(request, response){
-    const {plano, quantidade} = request.body
-    console.log(plano, quantidade);
-    var preco =0;
-    
-    if(plano === "plano individual"){
-      preco += 50;
-    } else if(plano === 'plano personalizado'){
-      preco += quantidade * 50;
-    };
-    console.log(preco);
+    const {plano, quantidade, preco, x} = request.body
+    var Preco = 0;
+    if(plano === 'plano individual'){
+      Preco += 50;
+    } else if(plano === "plano personalizado"){
+      Preco += x * 50;
+    }
+    console.log(plano, Preco, x);
     // Configure as credenciais
     mercadopago.configure({
       access_token: 'APP_USR-8723383960512742-032820-a2fe03f8211f0538df7bb3b7177ebc42-294751990' //chave de acesso de teste
@@ -27,11 +25,13 @@ module.exports = {
       items: [
         {
           title: plano,
-          unit_price: preco,
-          quantity: 1,
+          quantity: parseInt(quantidade),
+          'currency_id': 'BRL',
+          unit_price: Preco,
         },
       ]
     };
+    console.log(">>>>", preco);
     mercadopago.preferences.create(preference)
     .then(function(Response){
     // Este valor substituirá a string "<%= global.id %>" no seu HTML
