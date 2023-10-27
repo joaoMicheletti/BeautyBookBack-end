@@ -9,7 +9,7 @@ module.exports = {
     } else if(plano === "plano personalizado"){
       Preco += x * 50;
     }
-    console.log(plano, Preco, x);
+    console.log(plano, quantidade, Preco, x);
     // Configure as credenciais
     mercadopago.configure({
       access_token: 'APP_USR-8723383960512742-032820-a2fe03f8211f0538df7bb3b7177ebc42-294751990' //chave de acesso de teste
@@ -55,10 +55,15 @@ module.exports = {
     axios.get(apiUrl, config).then((Response) => {
       const Dados = Response.data;
       if(Dados.status === 'pending'){
-        console.log(Dados);
+        console.log(Dados); //objeto completo de resposta do banco 
         console.log(Dados.status); //status do pagamento pending, failure, success;
         console.log(Dados.description); // nome do produto ou seja nome do plano contratado;
-        return response.json(Dados.status);
+        console.log(Dados.payment_method.id); // tipo de pagamneto
+        //retornando o status e o tipo do pagament;
+        var status = Dados.status;
+      var id = Dados.payment_method.id;
+        const Resp = {status, id};
+        return response.json(Resp);
       }else if(Dados.status === 'approved'){
         var status = Dados.status;
         var description = Dados.description; 
