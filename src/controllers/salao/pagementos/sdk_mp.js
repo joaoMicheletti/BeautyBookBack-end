@@ -1,6 +1,9 @@
 // SDK do Mercado Pago
 const mercadopago = require ('mercadopago');
+const connect = require('../../../database/connection');
+const { verbose } = require('sqlite3');
 module.exports = {
+  // criando a preferência do produto
   async Preferenceid(request, response){
     const {plano, quantidade, preco, x} = request.body
     var Preco = 0;
@@ -42,6 +45,7 @@ module.exports = {
       console.log(error);
     });
   },
+  //função para buscar um pagamento;
   async BuscarPagamento(request, response){
     const {paymentId} = request.body;
     const axios = require('axios');
@@ -80,4 +84,13 @@ module.exports = {
         console.error('Erro na solicitação:', error);
       });
     },
-}
+    //função responsável por salvar o pymentId no data base;
+    //caso o pagamento sejá pendente, boleto ou pec;
+    async Pending(request, response){
+      const {salao, paymentId} = request.body;
+      //inserindo o pymentId no dataBase;
+      var verificar = await connect('salao').where('cpf_salao', salao).update('pendente', paymentId);
+      console.log(verificar);
+      return response.json(verificar);
+    },
+};

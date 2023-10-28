@@ -4,7 +4,6 @@
  */
 exports.up = function(knex) {
     return knex.schema.createTable('salao', function(table){
-
         table.increments();
         table.string('logo_salao'); //ok
         table.string('nome_salao').notNullable(); // ok
@@ -27,16 +26,13 @@ exports.up = function(knex) {
         table.int('intervalo_entre_agendamentos'); //ok
         table.int('agendamento_apos_hora_atual'); //ok
         table.int('permitir_agendamento_ate'); //ok
-
+        table.string('pendente'); //implentando;
     });
-  
 };
-
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
     return knex.schema.dropTable('salao');
-  
 };

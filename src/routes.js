@@ -75,5 +75,8 @@ routes.put('/cancelarservico', AgendamentoClientes.UpdateStatusServicoCancelar);
 routes.put('/finalizarservico', AgendamentoClientes.UpdateStatusServicoFinalizar);
 //rota do preference id;
 routes.post('/preferenceid', Pagamento.Preferenceid);
+//rota para buscar um pagamento;
 routes.post('/buscarpg', Pagamento.BuscarPagamento);
+//rota para salval o pymentId no bando dedados caso o pagamento seja pedente;
+routes.post('/pending', Pagamento.Pending);
 module.exports = routes;
