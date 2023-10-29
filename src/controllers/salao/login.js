@@ -93,6 +93,23 @@ module.exports = {
         //como essa função vai ser chamada constantemente ela tratara de verificar a data de termino de assinatur e etualizar o status de assinatura;
         //data de vencimento do plano do salão.
         let dataVencimento = await connect('salao').where('cpf_salao', cpf_salao).select('data_vencimento_plano');
+        //verificar se os dis free ainda estão liberados.
+        if(dataVencimento[0].data_vencimento_plano === null){
+            // si for nul não, ainda nao contratou nenum plano, então verificaremos os dis free;
+            var dataAtual = new Date();
+            var cad = await connect('salao').where('cpf_salao', cpf_salao).select('data_cadastro');
+            var partes = cad[0].data_cadastro.split('/');
+                var dia = parseInt(partes[0], 10);
+                var mes = parseInt(partes[1], 10) - 1; // Os meses em JavaScript são baseados em zero
+                var ano = parseInt(partes[2], 10);
+                // Criar um objeto de data com os valores obtidos
+                var data = new Date(ano, mes, dia);
+                // Adicionar 7 dias ao objeto de data
+                data.setDate(data.getDate() + 7);
+                //salvando na variavel o status dos dias free, true para acesso livre false para acesso livre excedido;
+                var dias_free = dataAtual < data;
+                return respones.json(dias_free)
+        }
         // Quebrar a string da data vencimento em dia, mês e ano
         var partes = dataVencimento[0].data_vencimento_plano.split('/');
         var Dia = parseInt(partes[0], 10);
@@ -108,9 +125,10 @@ module.exports = {
         //foi criado dois objetos de data para facilitar na conparação das datas 
         if(dataAtualObject > dataVencimentobject){
             await connect('salao').where('cpf_salao', cpf_salao).update('assinatura_status', null);
+            return respones.json(null);
         };
         //busca na base dedados.
         const ass = await connect('salao').where('cpf_salao', cpf_salao).select('assinatura_status');
-        return respones.json(ass);
+        return respones.json('on');
     },
 }
