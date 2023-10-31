@@ -3,7 +3,6 @@ module.exports = {
     async LoginSalao(request, response){
         //cada salão novo no sistema terá uma semana, (7) dias de acesso livre
         //passado esses 7 dias ele so terá acesso a pagina de planos até contratar um .
-        
         const {cpf_salao, senha} = request.body;
         // buscando os dados recebidos pelo corpo da request ;
         const cCpf = await connect('salao').where('cpf_salao', cpf_salao).select('cpf_salao');
@@ -76,14 +75,98 @@ module.exports = {
                 } else{
                 	// dias free exedidos.
                     return response.json("Dias Free exedidos");
-                };  
+                };
             } else {
-                var assinatura_status = status[0].assinatura_status;
+                // verificar o pagamento e atualizar se realizado;
+                var pendente = await connect('salao').where('cpf_salao', cpf_salao).select('pendente');
+                if(pendente.length > 0 ){
+                    var paymentId = pendente[0].pendente;
+                    console.log('>>>', paymentId);
+                    const axios = require('axios');
+                    const YOUR_ACCESS_TOKEN = 'APP_USR-8723383960512742-032820-a2fe03f8211f0538df7bb3b7177ebc42-294751990'; // Substitua pelo seu token de acesso
+                    const apiUrl = `https://api.mercadopago.com/v1/payments/${paymentId}`;
+                    const config = {
+                    headers: {
+                        Authorization: `Bearer ${YOUR_ACCESS_TOKEN}`,
+                        },
+                    };
+                    axios.get(apiUrl, config).then((Response) => {
+                    const Dados = Response.data;
+                    if(Dados.status === 'pending'){
+                        //retornando o status e o tipo do pagament;
+                        var statusPagamento = Dados.status;
+                        const Data = {
+                            cpf_salao,
+                            statusPagamento,
+                        };
+                        return response.json(Data);
+                    }else if(Dados.status === 'approved'){
+                        //data de aprovação do pagamento;
+                        var dataAproved =  Dados.date_approved;
+                        // data de termino do plano do salão;
+                        var terminoPlano = async  () => {
+                            await connect('salao').where('cpf_salao', cpf_salao).select('data_vencimento_plano');
+                        };
+                        //quebrando a string para gerar um objeto de Date();
+                        var partes = terminoPlano.split('/');
+                        var diaTermino = parseInt(partes[0], 10);
+                        var mesTermino = parseInt(partes[1], 10); // Os meses em JavaScript são baseados em zero
+                        var anoTermino = parseInt(partes[2], 10); 
+                        //objeto de date com a data de termino do plano;
+                        var objetoDataDeTerminoDoPlano = new Date(diaTermino, mesTermino, anoTermino);
+                        //criando objeto de aprovaçõa de pagamento para converter para dia, mes, ano;
+                        var dataPagamento = new Date(dataAproved);
+                        var diaPagamento = dataPagamento.getDate();
+                        var mesPagamento= dataPagamento.getMonth();
+                        var anoPagamento = dataPagamento.getFullYear();
+                        // nova tada de termino de plano;
+                        var varTerminoDePlano = dia+'/'+mes+'/'+ano;
+                        //objeto da data da aprovação para a conparação;
+                        var objetodataDeAprovacaoDePagamento = new Date(diaPagamento, mesPagamento, anoPagamento);
+                        //condição para ferivicar se objetoDataDeTerminoDoPlano é < que dataDeAprovacaoDePagamento;
+                        if(objetoDataDeTerminoDoPlano < objetodataDeAprovacaoDePagamento){
+                            var updateInicioDoPlano = async () => {
+                                var objetDataAtual = new Date();
+                                var diaInicioDeplano = objetDataAtual.getDate();
+                                var mesInicioDePlano = objetDataAtual.getMonth() + 1;
+                                var anoInicioDePlano = objetDataAtual.getFullYear();
+                                // nova data de inicio de plano;
+                                var varInivioDeplano = diaInicioDeplano+'/'+mesInicioDePlano+'/'+anoInicioDePlano;
+                                // atualizando na base de dados;
+                                await connect('salao').where('cpf_salao', cpf_salao).update('data_inicio_plano', varInivioDeplano);
+                                //atualizndo a data de termino na base de dados;
+                                await connect('salao').where('cpf_salao', cpf_salao).update('data_vencimento_plano', varTerminoDePlano);
+                                // atualizando o status da assinatura
+                                await connect('salao').where('cpf_salao', cpf_salao).update('assinatura_status', 'on');
+                                //removendo o paymentId da base de dados;
+                                await connect('salao').where('cpf_salao', cpf_salao).update('pendente', null);
+                            }
+                        }
+                        var statusPagamento = Dados.status;
+                        const Data = {
+                            cpf_salao,
+                            statusPagamento,
+                        };
+                        return response.json(Data);
+                    }else{
+                        var statusPagamento = Dados.status;
+                        const Data = {
+                            cpf_salao,
+                            statusPagamento,
+                        };
+                        return response.json(Data);
+                    };        
+                    }).catch((error) => {
+                        console.error('Erro na solicitação:', error);
+                    });
+                };
+                
+                /*var assinatura_status = status[0].assinatura_status;
                 const Data = {
                     cpf_salao,
                     assinatura_status
                 };
-                return response.json(Data);
+                return response.json(Data);*/
             };            
         };
     },
@@ -131,4 +214,4 @@ module.exports = {
         const ass = await connect('salao').where('cpf_salao', cpf_salao).select('assinatura_status');
         return respones.json('on');
     },
-}
+};
