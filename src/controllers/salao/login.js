@@ -92,6 +92,7 @@ module.exports = {
                     };
                     axios.get(apiUrl, config).then((Response) => {
                     const Dados = Response.data;
+                    console.log(Dados, "this");
                     if(Dados.status === 'pending'){
                         //retornando o status e o tipo do pagament;
                         var statusPagamento = Dados.status;
@@ -99,6 +100,7 @@ module.exports = {
                             cpf_salao,
                             statusPagamento,
                         };
+                        console.log(Data, "this");
                         return response.json(Data);
                     }else if(Dados.status === 'approved'){
                         //data de aprovação do pagamento;
@@ -140,8 +142,8 @@ module.exports = {
                                 await connect('salao').where('cpf_salao', cpf_salao).update('assinatura_status', 'on');
                                 //removendo o paymentId da base de dados;
                                 await connect('salao').where('cpf_salao', cpf_salao).update('pendente', null);
-                            }
-                        }
+                            };
+                        };
                         var statusPagamento = Dados.status;
                         const Data = {
                             cpf_salao,
@@ -207,7 +209,7 @@ module.exports = {
         const dataAtualObject = new Date(ano, mes, dia);
         //foi criado dois objetos de data para facilitar na conparação das datas 
         if(dataAtualObject > dataVencimentobject){
-            await connect('salao').where('cpf_salao', cpf_salao).update('assinatura_status', null);
+            await connect('salao').where('cpf_salao', cpf_salao).update('assinatura_status', 'off');
             return respones.json(null);
         };
         //busca na base dedados.

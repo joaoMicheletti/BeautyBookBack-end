@@ -1,7 +1,6 @@
 // SDK do Mercado Pago
 const mercadopago = require ('mercadopago');
 const connect = require('../../../database/connection');
-const { verbose } = require('sqlite3');
 module.exports = {
   // criando a preferência do produto
   async Preferenceid(request, response){
@@ -59,13 +58,13 @@ module.exports = {
     axios.get(apiUrl, config).then((Response) => {
       const Dados = Response.data;
       if(Dados.status === 'pending'){
-        console.log(Dados); //objeto completo de resposta do banco 
+        //console.log(Dados); //objeto completo de resposta do banco 
         console.log(Dados.status); //status do pagamento pending, failure, success;
         console.log(Dados.description); // nome do produto ou seja nome do plano contratado;
         console.log(Dados.payment_method.id); // tipo de pagamneto
         //retornando o status e o tipo do pagament;
         var status = Dados.status;
-      var id = Dados.payment_method.id;
+        var id = Dados.payment_method.id;
         const Resp = {status, id};
         return response.json(Resp);
       }else if(Dados.status === 'approved'){
@@ -90,7 +89,7 @@ module.exports = {
       const {salao, paymentId} = request.body;
       //inserindo o pymentId no dataBase;
       var verificar = await connect('salao').where('cpf_salao', salao).update('pendente', paymentId);
-      console.log(verificar);
+      console.log(">>>>>>:", salao, ">>>>>>>>>>>",verificar);
       return response.json(verificar);
     },
 };
