@@ -71,7 +71,6 @@ module.exports = {
         if(cpf_funcionario === undefined){
             //buscar no banco de dados o horario de funcionamento do dia.
             const funcionamento = await connect('horarios').where('cpf_salao', cpf_salao).where('dia', dia_semana).select('*');
-
             if(hora < funcionamento[0].inicio_trabalhos){ //salão não está aberto ainda!.
                 return response.json("Fora do Horário de funcionamento.");
             } else if(hora > funcionamento[0].fim_trabalhos){ // salão já está fechado nessa hora; 
@@ -100,7 +99,6 @@ module.exports = {
             //buscar no banco de dados o horario de funcionamento do dia.
             var info_funcionario = await connect('funcionarios').where('cpf_funcionario', cpf_funcionario).select('*'); 
             const funcionamento = await connect('horarios').where('cpf_salao', info_funcionario[0].cpf_salao).where('dia', dia_semana).select('*');
-
             if(hora < funcionamento[0].inicio_trabalhos){ //salão não está aberto ainda!.
                 return response.json("Fora do Horário de funcionamento.");
             } else if(hora > funcionamento[0].fim_trabalhos){ // salão já está fechado nessa hora; 
@@ -116,7 +114,7 @@ module.exports = {
                     var minutosRestantes = termino_agendamento_atual[0].intervalo_entre_agendamentos % 60; // Obtém os minutos restantes
                     var valorFormatado = horas + "." + minutosRestantes;
                     var hora_termino = parseFloat(valorFormatado, 10) + hora;
-                    console.log(hora_termino)
+                    console.log(hora_termino, 'this<><><><><><><><>')
                     var proximo_agendamento = await connect('agenda').where('cpf_funcionario', cpf_funcionario)
                     .where('hora', '>', hora).where('hora', '<', hora_termino);
                     if(proximo_agendamento.length === 0){ //nao tem conflito com o proximo agendado
@@ -148,7 +146,6 @@ module.exports = {
         } = request.body;
         //agendar para salão ...
         if(cpf_funcionario === undefined){
-
             var termino = await connect('salao').where('cpf_salao', cpf_salao).select('intervalo_entre_agendamentos');
             
             //simplificando a hora.
@@ -174,7 +171,6 @@ module.exports = {
             };
             var conf = await connect('agenda').insert(Data);
             return response.json(conf);
-
         }else if(cpf_salao === undefined){ //agendar para funcionário ...
             var info_funcionario = await connect('funcionarios').where('cpf_funcionario', cpf_funcionario).select('*');
             
@@ -184,7 +180,6 @@ module.exports = {
             var minutosRestantes = termino[0].intervalo_entre_agendamentos % 60; // Obtém os minutos restantes
             var valorFormatado = horas + "." + minutosRestantes;
             var hora_termino = parseFloat(valorFormatado, 10) + hora;
-        
             const Data =  {
                 cpf_salao: info_funcionario[0].cpf_salao,
                 cpf_funcionario,
@@ -203,7 +198,7 @@ module.exports = {
             };
             var conf = await connect('agenda').insert(Data);
             return response.json(conf);
-        };   
+        };
     },
     //listar os horarios já preenchidos.
     async HorariosPreenchidos(request, response){
@@ -240,7 +235,6 @@ module.exports = {
     async UpdateStatusServicoFinalizar(request, response){
         const {id} = request.body;
         const lista = await connect('agenda').where('id', id).update('status_servico', 'finalizado');
-
         if(lista > 0){
             return response.json('Serviço Finalizado');
         } else {

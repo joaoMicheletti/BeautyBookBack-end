@@ -78,9 +78,9 @@ module.exports = {
                 };
             } else {
                 // verificar o pagamento e atualizar se realizado;
-                var pendente = await connect('salao').where('cpf_salao', cpf_salao).select('pendente');
-                if(pendente.length > 0 ){
-                    var paymentId = pendente[0].pendente;
+                var pending = await connect('salao').where('cpf_salao', cpf_salao).select('pendente');
+                if(pending[0].pendente !== null){
+                    var paymentId = pending[0].pendente;
                     console.log('>>>', paymentId);
                     const axios = require('axios');
                     const YOUR_ACCESS_TOKEN = 'APP_USR-8723383960512742-032820-a2fe03f8211f0538df7bb3b7177ebc42-294751990'; // Substitua pelo seu token de acesso
@@ -92,7 +92,6 @@ module.exports = {
                     };
                     axios.get(apiUrl, config).then((Response) => {
                     const Dados = Response.data;
-                    console.log(Dados, "this");
                     if(Dados.status === 'pending'){
                         //retornando o status e o tipo do pagament;
                         var statusPagamento = Dados.status;
@@ -100,7 +99,6 @@ module.exports = {
                             cpf_salao,
                             statusPagamento,
                         };
-                        console.log(Data, "this");
                         return response.json(Data);
                     }else if(Dados.status === 'approved'){
                         //data de aprovação do pagamento;
@@ -163,12 +161,12 @@ module.exports = {
                     });
                 };
                 
-                /*var assinatura_status = status[0].assinatura_status;
+                var assinatura_status = status[0].assinatura_status;
                 const Data = {
                     cpf_salao,
                     assinatura_status
                 };
-                return response.json(Data);*/
+                return response.json(Data);
             };            
         };
     },

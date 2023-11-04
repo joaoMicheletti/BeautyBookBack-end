@@ -12,6 +12,7 @@ module.exports = {
             senha
         };
         const info = await connect('salao').where('cpf_salao', cpf_salao).select('*');
+        console.log(info);
         /*O salão que estiver com a coluna "assinatura: null", 
         representa que ele é novo na plataforma e não tem um plano assinado,
         estando nesta condição ele não pode cadastrar funcionários. 
@@ -22,17 +23,7 @@ module.exports = {
         //} else 
         if(info[0].plano === 'plano individual'){
             return response.json('Desculpe, Seu plano não permite cadastrar funcionários.');
-                
-        } else if(info[0].plano === '1X'){ // O plano 1X não disponivel.
-            
-            if(info[0].quantidade_funcionarios < info[0].limite_funcionarios){
-                const carlinhos = await connect('funcionarios').insert(Data);
-                await connect('salao').where('cpf_salao', cpf_salao).update('quantidade_funcionarios', 1);
-                return response.json(carlinhos);                
-            } else {
-                return response.json('Desculpe, você já excedeu o limite de funcionários cadastrados...');
-            };
-        } else if (info[0].plano === "plano personalizado" ){ // o plano plano personalizado o cliente que define a quantidade de funcionários.
+        } else if (info[0].plano === "personalizado" ){ // o plano plano personalizado o cliente que define a quantidade de funcionários.
             var lista = await connect('salao').where('cpf_salao', cpf_salao).select('quantidade_funcionarios');
             
             if(lista[0].quantidade_funcionarios < info[0].limite_funcionarios){
