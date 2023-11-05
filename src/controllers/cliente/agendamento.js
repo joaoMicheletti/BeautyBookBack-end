@@ -82,10 +82,8 @@ module.exports = {
                     //evitar conflito com agendamentos já marcados mais a frente.
                     var termino_agendamento_atual = await connect('salao').where('cpf_salao', cpf_salao).select('intervalo_entre_agendamentos');
                     //simplificando a hora.
-                    var horas = Math.floor(termino_agendamento_atual[0].intervalo_entre_agendamentos / 60); // Obtém a parte inteira das horas
-                    var minutosRestantes = termino_agendamento_atual[0].intervalo_entre_agendamentos % 60; // Obtém os minutos restantes
-                    var valorFormatado = horas + "." + minutosRestantes;
-                    var hora_termino = parseFloat(valorFormatado, 10) + hora;
+                    var horas = termino_agendamento_atual[0].intervalo_entre_agendamentos; // Obtém o intervalo entre agenamentos;
+                    var hora_termino = horas + hora;
                     var proximo_agendamento = await connect('agenda').where('cpf_salao', cpf_salao)
                     .where('hora', '>', hora).where('hora', '<', hora_termino);
                     if(proximo_agendamento.length === 0){ //nao tem conflito com o proximo agendado
@@ -110,17 +108,15 @@ module.exports = {
                     //evitar conflito com agendamentos já marcados mais a frente.
                     var termino_agendamento_atual = await connect('salao').where('cpf_salao', info_funcionario[0].cpf_salao).select('intervalo_entre_agendamentos');
                     //simplificando a hora.
-                    var horas = Math.floor(termino_agendamento_atual[0].intervalo_entre_agendamentos / 60); // Obtém a parte inteira das horas
-                    var minutosRestantes = termino_agendamento_atual[0].intervalo_entre_agendamentos % 60; // Obtém os minutos restantes
-                    var valorFormatado = horas + "." + minutosRestantes;
-                    var hora_termino = parseFloat(valorFormatado, 10) + hora;
-                    console.log(hora_termino, 'this<><><><><><><><>')
+                    var horas = termino_agendamento_atual[0].intervalo_entre_agendamentos; // Obtém o intervalo entre agenamentos;
+                    var hora_termino = horas + hora;
                     var proximo_agendamento = await connect('agenda').where('cpf_funcionario', cpf_funcionario)
                     .where('hora', '>', hora).where('hora', '<', hora_termino);
                     if(proximo_agendamento.length === 0){ //nao tem conflito com o proximo agendado
                         return response.json('agendamento permitido');
+                    } else {
+                        return response.json('conflito entre agendamentos');
                     };
-                    return response.json('conflito entre agendamentos');                
                 };
                 return response.json('Horário já ocupado');
             };
@@ -176,10 +172,9 @@ module.exports = {
             
             var termino = await connect('salao').where('cpf_salao', info_funcionario[0].cpf_salao).select('intervalo_entre_agendamentos');
             //simplificando a hora.
-            var horas = Math.floor(termino[0].intervalo_entre_agendamentos / 60); // Obtém a parte inteira das horas
-            var minutosRestantes = termino[0].intervalo_entre_agendamentos % 60; // Obtém os minutos restantes
-            var valorFormatado = horas + "." + minutosRestantes;
-            var hora_termino = parseFloat(valorFormatado, 10) + hora;
+            var horas = termino[0].intervalo_entre_agendamentos;
+            var hora_termino = horas + hora;
+            console.log('criaragendamento >>> ', hora_termino);
             const Data =  {
                 cpf_salao: info_funcionario[0].cpf_salao,
                 cpf_funcionario,
