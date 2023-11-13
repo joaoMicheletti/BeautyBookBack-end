@@ -11,6 +11,7 @@ const MulterConfig = require('./controllers/ajustes/multer'); //instânciando co
 const Planos = require('./controllers/salao/plano'); // assinatura de plano;
 const Pagamento = require('./controllers/salao/pagementos/sdk_mp'); //função para gerar o id de preferece, buscar pagamento;
 const AgendamentoClientes = require('./controllers/cliente/agendamento'); // funões de ageendamento para crientes.
+const Alteracao = require('./controllers/cpanel/alteracao');
 //rota de registro de salão;
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
 //rota de listagem de salão cadastrado;
@@ -79,4 +80,18 @@ routes.post('/preferenceid', Pagamento.Preferenceid);
 routes.post('/buscarpg', Pagamento.BuscarPagamento);
 //rota para salval o pymentId no bando dedados caso o pagamento seja pedente;
 routes.post('/pending', Pagamento.Pending);
+//cpanel update senha;
+routes.post('/cpanelpass', Alteracao.CpanelSenha);
+//update plano;
+routes.post('/cpanelplano', Alteracao.EditarPlano);
+// update assinatura;
+routes.post('/cpanelassinatura', Alteracao.EditarAssinatura);
+//editar assinatura_status; 
+routes.post('/cpanelassinatura_status', Alteracao.EditarAssinaturaStatus);
+//editar data de inicio do plano;
+routes.post('/cpaneldata_inicio_plano', Alteracao.DataInicio);
+//editar data_vencimento_plano
+routes.post('/cpaneldata_vencimento_plano', Alteracao.DataFim);
+// editar limite de funcionário;
+routes.post('/cpanellimite_funcionarios', Alteracao.FuncionarioLimite);
 module.exports = routes;
