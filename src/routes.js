@@ -11,7 +11,8 @@ const MulterConfig = require('./controllers/ajustes/multer'); //instânciando co
 const Planos = require('./controllers/salao/plano'); // assinatura de plano;
 const Pagamento = require('./controllers/salao/pagementos/sdk_mp'); //função para gerar o id de preferece, buscar pagamento;
 const AgendamentoClientes = require('./controllers/cliente/agendamento'); // funões de ageendamento para crientes.
-const Alteracao = require('./controllers/cpanel/alteracao');
+const Alteracao = require('./controllers/cpanel/alteracao'); // painel de alteração c panel;
+const LoginCpanel = require('./controllers/cpanel/login'); 
 //rota de registro de salão;
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
 //rota de listagem de salão cadastrado;
@@ -94,4 +95,8 @@ routes.post('/cpaneldata_inicio_plano', Alteracao.DataInicio);
 routes.post('/cpaneldata_vencimento_plano', Alteracao.DataFim);
 // editar limite de funcionário;
 routes.post('/cpanellimite_funcionarios', Alteracao.FuncionarioLimite);
+//login cpanel;
+routes.post('/cpanellogin', LoginCpanel.Logar);
+// cadastro c panel;
+routes.post('/cadcpanel', LoginCpanel.AdmCad);
 module.exports = routes;
