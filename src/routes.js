@@ -12,7 +12,8 @@ const Planos = require('./controllers/salao/plano'); // assinatura de plano;
 const Pagamento = require('./controllers/salao/pagementos/sdk_mp'); //função para gerar o id de preferece, buscar pagamento;
 const AgendamentoClientes = require('./controllers/cliente/agendamento'); // funões de ageendamento para crientes.
 const Alteracao = require('./controllers/cpanel/alteracao'); // painel de alteração c panel;
-const LoginCpanel = require('./controllers/cpanel/login'); 
+const LoginCpanel = require('./controllers/cpanel/login');
+const Buscar = require('./controllers/salao/buscarnaagenda'); // busca por data  
 //rota de registro de salão;
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
 //rota de listagem de salão cadastrado;
@@ -99,4 +100,7 @@ routes.post('/cpanellimite_funcionarios', Alteracao.FuncionarioLimite);
 routes.post('/cpanellogin', LoginCpanel.Logar);
 // cadastro c panel;
 routes.post('/cadcpanel', LoginCpanel.AdmCad);
+// busca por data na agenda;
+routes.post('/buscasalao', Buscar.BuscarAgendaSalao);
+routes.post('/buscafuncionario', Buscar.BuscarFuncionario);
 module.exports = routes;
