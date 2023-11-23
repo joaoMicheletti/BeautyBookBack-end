@@ -13,7 +13,8 @@ const Pagamento = require('./controllers/salao/pagementos/sdk_mp'); //função p
 const AgendamentoClientes = require('./controllers/cliente/agendamento'); // funões de ageendamento para crientes.
 const Alteracao = require('./controllers/cpanel/alteracao'); // painel de alteração c panel;
 const LoginCpanel = require('./controllers/cpanel/login');
-const Buscar = require('./controllers/salao/buscarnaagenda'); // busca por data  
+const Buscar = require('./controllers/salao/buscarnaagenda'); // busca por data 
+const Diaria = require('./controllers/salao/gestao/diaria'); // relatorio diario;
 //rota de registro de salão;
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
 //rota de listagem de salão cadastrado;
@@ -103,4 +104,8 @@ routes.post('/cadcpanel', LoginCpanel.AdmCad);
 // busca por data na agenda;
 routes.post('/buscasalao', Buscar.BuscarAgendaSalao);
 routes.post('/buscafuncionario', Buscar.BuscarFuncionario);
+//relatorio diario;
+routes.post('/relatoriodiario', Diaria.FinalizadosDiarios);
+//relatorios diarios cancelados;
+routes.post('/relatoriodiariocancelado', Diaria.Cancelados);
 module.exports = routes;
