@@ -15,6 +15,7 @@ const Alteracao = require('./controllers/cpanel/alteracao'); // painel de altera
 const LoginCpanel = require('./controllers/cpanel/login');
 const Buscar = require('./controllers/salao/buscarnaagenda'); // busca por data 
 const Diaria = require('./controllers/salao/gestao/diaria'); // relatorio diario;
+const RelatorioDeEntrada = require('./controllers/salao/gestao/entrada');
 //rota de registro de salão;
 routes.post('/registrarsalao', RegistrarSalao.Registrar);
 //rota de listagem de salão cadastrado;
@@ -108,4 +109,6 @@ routes.post('/buscafuncionario', Buscar.BuscarFuncionario);
 routes.post('/relatoriodiario', Diaria.FinalizadosDiarios);
 //relatorios diarios cancelados;
 routes.post('/relatoriodiariocancelado', Diaria.Cancelados);
+//relatório de entrada;
+routes.post('/rentrada', RelatorioDeEntrada.RelatorioDeEntrada);
 module.exports = routes;
