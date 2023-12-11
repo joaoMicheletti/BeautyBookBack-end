@@ -113,4 +113,6 @@ routes.post('/relatoriodiariocancelado', Diaria.Cancelados);
 routes.post('/rentrada', RelatorioDeEntrada.RelatorioDeEntrada);
 //relatório de entrada do mes.
 routes.post('/remes', RelatorioDeEntrada.RelatorioMes);
+//relatório de entrada do ano.
+routes.post('/reano', RelatorioDeEntrada.RelatorioAno);
 module.exports = routes;

@@ -32,4 +32,20 @@ module.exports = {
         };
         return response.json(relatorio);
     },
+    //relatório de entrada anual.
+    async RelatorioAno(request, response){
+        const {ano, cpf_salao} = request.body;
+        var result = await connect('agenda').where('cpf_salao',cpf_salao).where('ano', ano).where('status_servico', 'finalizado').select('*');
+        if(result.length === 0){return response.json("Nada encontrado")};
+        var quantidade = result.length;
+        var valorTotal = 0;
+        for(indice = 0; indice < result.length; indice ++){
+            valorTotal += result[indice].preco;
+        };
+        var relatorio = {
+            'valorTotal': valorTotal,
+            'quantidade': quantidade
+        };
+        return response.json(relatorio);
+    },
 }
