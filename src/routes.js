@@ -109,6 +109,8 @@ routes.post('/buscafuncionario', Buscar.BuscarFuncionario);
 routes.post('/relatoriodiario', Diaria.FinalizadosDiarios);
 //relatorios diarios cancelados;
 routes.post('/relatoriodiariocancelado', Diaria.Cancelados);
-//relatório de entrada;
+//relatório de entrada bruta;
 routes.post('/rentrada', RelatorioDeEntrada.RelatorioDeEntrada);
+//relatório de entrada do mes.
+routes.post('/remes', RelatorioDeEntrada.RelatorioMes);
 module.exports = routes;
